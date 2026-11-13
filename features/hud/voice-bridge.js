@@ -191,7 +191,9 @@ function onPartyDblClick(ev) {
 /** Вызывается BG3 HUD после каждой перерисовки */
 export function afterRender(root, actor) {
   if (!vp) return;
-  const owner = actor ? game.users.find((u) => u.character && u.character.id === actor.id) : null;
+  // Мастер управляет чужими токенами: его большой портрет всегда реагирует на ЕГО голос,
+  // иначе при выделенном токене игрока портрет «дёргался» бы, когда говорит этот игрок.
+  const owner = actor && !game.user.isGM ? game.users.find((u) => u.character && u.character.id === actor.id) : null;
   const newId = actor ? (owner ?? game.user).id : null;
   if (newId !== portraitUserId) { portraitUserId = newId; decorateParty(); }
   if (!root || !actor || !docked()) return;

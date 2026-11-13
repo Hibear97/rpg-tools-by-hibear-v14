@@ -64,6 +64,12 @@ export function registerSettings() {
     hint: "Громкость в Discord, начиная с которой портрет «кричит». Чем ближе к 0, тем громче надо кричать.",
     scope: "world", config: true, type: Number, range: { min: -40, max: 0, step: 1 }, default: -12
   });
+  reg("discordAskUnknown", {
+    name: "Discord-бот: спрашивать про незнакомые голоса",
+    hint: "Если в Discord говорит человек, не привязанный ни к одному пользователю Foundry, мастер один раз увидит окно «Кто это?» и сможет привязать его в один клик, не вписывая ник вручную. Выключите, если привязываете ники сами (ПКМ по портрету → «Настроить портрет…»).",
+    scope: "world", config: true, type: Boolean, default: true
+  });
+  reg("discordIgnored", { scope: "world", config: false, type: Array, default: [] });
   reg("setupPrompted", { scope: "world", config: false, type: Boolean, default: false });
 
   // ---------- Клиент (у каждого свои) ----------

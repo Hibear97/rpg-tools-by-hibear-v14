@@ -240,26 +240,39 @@ export class DiscordBridge {
   async #offerLink(discordId) {
     if ( this.#asked.has(discordId) ) return;
     this.#asked.add(discordId);
+    if ( !getSetting("discordAskUnknown") ) return;
+    const ignored = getSetting("discordIgnored") ?? [];
+    if ( ignored.includes(discordId) ) return;
     const mem = this.#members.get(discordId);
     const shown = mem?.displayName || mem?.globalName || mem?.nick || mem?.username || discordId;
     const nick = mem?.username || discordId;
-    const users = game.users.filter(u => !u.getFlag(MODULE_ID, "vp.discord"));
+    // Все пользователи, включая мастера: сначала те, у кого ник ещё не указан
+    const users = [...game.users].sort((a, b) =>
+      (!!a.getFlag(MODULE_ID, "vp.discord") - !!b.getFlag(MODULE_ID, "vp.discord")) || (b.isGM - a.isGM) || a.name.localeCompare(b.name));
     if ( !users.length ) return;
     const esc = s => foundry.utils.escapeHTML?.(String(s)) ?? String(s);
-    const options = users.map(u => `<option value="${u.id}">${esc(u.name)}${u.isGM ? " (мастер)" : ""}${u.active ? "" : " — не в сети"}</option>`).join("");
+    const options = users.map(u => {
+      const cur = u.getFlag(MODULE_ID, "vp.discord");
+      return `<option value="${u.id}" ${u.isGM && u.isSelf && !cur ? "selected" : ""}>${esc(u.name)}${u.isGM ? " (мастер)" : ""}${cur ? ` — сейчас: ${esc(cur)}` : ""}${u.active ? "" : " — не в сети"}</option>`;
+    }).join("");
     const DialogV2 = foundry.applications.api.DialogV2;
     const userId = await DialogV2.wait({
       window: { title: "Голосовые портреты · Discord", icon: "fa-brands fa-discord" },
-      content: `<p>В Discord говорит <b>${esc(shown)}</b> (${esc(nick)}), но он не привязан ни к одному игроку,
-        поэтому его портрет не двигается. Кто это?</p>
-        <div class="form-group"><label>Игрок</label><select name="user">${options}</select></div>`,
+      content: `<p>В Discord говорит <b>${esc(shown)}</b> (${esc(nick)}). Бот не знает, кто это в Foundry, поэтому ничей портрет на его голос не реагирует.
+        Выберите пользователя — ник сохранится, и дальше портрет будет двигаться сам. Если это вы, выберите себя (мастера).</p>
+        <div class="form-group"><label>Пользователь</label><select name="user">${options}</select></div>`,
       rejectClose: false,
       buttons: [
         { action: "link", label: "Привязать", icon: "fa-solid fa-link", default: true,
           callback: (event, button) => button.form?.elements?.user?.value ?? null },
+        { action: "ignore", label: "Не игрок — не спрашивать", icon: "fa-solid fa-ban", callback: () => "__ignore" },
         { action: "skip", label: "Не сейчас", callback: () => null }
       ]
     });
+    if ( userId === "__ignore" ) {
+      await game.settings.set(MODULE_ID, "vp-discordIgnored", [...new Set([...ignored, discordId])]);
+      return;
+    }
     const target = userId ? game.users.get(userId) : null;
     if ( !target ) return;
     await target.setFlag(MODULE_ID, "vp.discord", nick);
