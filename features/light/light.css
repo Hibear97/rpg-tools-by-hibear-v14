@@ -1,0 +1,12 @@
+#token-hud .torchlight-hud.active i {
+  color: #ffb347;
+  text-shadow: 0 0 6px #ff7b00, 0 0 12px #ff5500;
+}
+
+#token-hud .torchlight-hud.active {
+  border-color: #ff9a2e;
+}
+
+.torchlight-dialog .torchlight-info {
+  margin: 0 0 0.5em 0;
+}

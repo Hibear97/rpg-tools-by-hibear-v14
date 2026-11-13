@@ -1,0 +1,61 @@
+{{#*inline "hpdSlot"}}
+<div class="hpd-slot {{#if item}}filled rarity-{{item.rarity}}{{else if ghost}}ghost-only rarity-{{ghost.rarity}}{{else}}empty{{/if}}"
+     data-slot="{{key}}"
+     {{#if item}}data-item-id="{{item.id}}" draggable="true" data-action="openItem" data-tooltip="{{item.tooltip}}"{{#if item.rich}} data-tooltip-class="dnd5e2 dnd5e-tooltip item-tooltip"{{/if}}
+     {{else if ghost}}data-item-id="{{ghost.id}}" data-action="openItem" data-tooltip="{{ghost.tooltip}}"{{#if ghost.rich}} data-tooltip-class="dnd5e2 dnd5e-tooltip item-tooltip"{{/if}}
+     {{else}}data-tooltip="{{label}}"{{/if}}>
+  {{#if item}}
+    <img src="{{item.img}}" alt="{{item.name}}">
+    {{#if item.attuned}}<i class="fa-solid fa-sun hpd-attuned"></i>{{/if}}
+  {{else if ghost}}
+    <img src="{{ghost.img}}" alt="" class="hpd-ghost">
+  {{else}}
+    <i class="fa-solid {{icon}} hpd-placeholder"></i>
+  {{/if}}
+</div>
+{{/inline}}
+
+<div class="hpd-root {{#unless canEdit}}readonly{{/unless}}">
+  <div class="hpd-main">
+    <div class="hpd-col">{{#each left}}{{> hpdSlot}}{{/each}}</div>
+
+    <div class="hpd-center">
+      <div class="hpd-portrait" style="background-image: url('{{portrait}}')">
+        <div class="hpd-portrait-frame"></div>
+        <div class="hpd-name">{{name}}</div>
+      </div>
+      <div class="hpd-stats">
+        <div class="hpd-stat" data-tooltip="{{labels.ac}}"><i class="fa-solid fa-shield"></i> {{ac}}</div>
+        <div class="hpd-hp" data-tooltip="{{labels.hp}}">
+          <div class="hpd-hp-fill" style="width: {{hp.pct}}%"></div>
+          <span>{{hp.value}} / {{hp.max}}</span>
+        </div>
+        {{#if attune}}
+        <div class="hpd-stat" data-tooltip="{{labels.attune}}"><i class="fa-solid fa-sun"></i> {{attune.value}}/{{attune.max}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="hpd-col">{{#each right}}{{> hpdSlot}}{{/each}}</div>
+  </div>
+
+  <div class="hpd-section-title">{{labels.weapons}}</div>
+  <div class="hpd-row hpd-weapons">{{#each weapons}}{{> hpdSlot}}{{/each}}</div>
+
+  <div class="hpd-section-title">{{labels.relics}}</div>
+  <div class="hpd-row hpd-relics">{{#each relics}}{{> hpdSlot}}{{/each}}</div>
+
+  {{#if loose.length}}
+  <div class="hpd-section-title">{{labels.loose}}</div>
+  <div class="hpd-loose">
+    {{#each loose}}
+    <div class="hpd-chip rarity-{{rarity}}" data-item-id="{{id}}" draggable="true" data-action="openItem"
+         data-tooltip="{{tooltip}}"{{#if rich}} data-tooltip-class="dnd5e2 dnd5e-tooltip item-tooltip"{{/if}}>
+      <img src="{{img}}" alt="{{name}}">
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if canEdit}}<div class="hpd-hint">{{labels.hint}}</div>{{/if}}
+</div>

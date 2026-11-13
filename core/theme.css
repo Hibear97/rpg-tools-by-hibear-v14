@@ -1,0 +1,62 @@
+/* ==================================================================
+   RPG-Tools by Hibear — общая тема всех окон сборки.
+   Тёмный фон, золотые рамки, светлый текст. Подключается последней,
+   поэтому одинаково оформляет окна всех функций.
+   ================================================================== */
+:root {
+  --rpgt-gold: #c9a35b;
+  --rpgt-gold-light: #f1d9a0;
+  --rpgt-gold-dark: #6e5428;
+  --rpgt-bg: #14100c;
+  --rpgt-bg2: #201913;
+  --rpgt-text: #e8dcc4;
+  --rpgt-ok: #46c35f;
+  --rpgt-bad: #e05050;
+}
+
+/* --- рамка и заголовок окна: у всех окон сборки --- */
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-window, .rpp-dialog, .gm-whisper, .hlp-window, .rtc-config-app, .sketch-notebook-app, .sketch-notebook-sketch,
+    .torchlight-dialog, .ib-setup).application {
+  border: 1px solid var(--rpgt-gold-dark);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #000, 0 10px 30px rgba(0, 0, 0, .75);
+}
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-window, .rpp-dialog, .gm-whisper, .hlp-window, .rtc-config-app, .sketch-notebook-app, .sketch-notebook-sketch,
+    .torchlight-dialog, .ib-setup).application > .window-header {
+  background: linear-gradient(180deg, #2a2118, #120e0a);
+  border-bottom: 1px solid var(--rpgt-gold-dark);
+  color: var(--rpgt-gold-light);
+}
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-window, .rpp-dialog, .gm-whisper, .hlp-window, .rtc-config-app, .sketch-notebook-app, .sketch-notebook-sketch,
+    .torchlight-dialog, .ib-setup).application > .window-header :is(.window-title, .window-icon) {
+  color: var(--rpgt-gold-light);
+}
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-window, .rpp-dialog, .gm-whisper, .hlp-window, .rtc-config-app, .sketch-notebook-app, .sketch-notebook-sketch,
+    .torchlight-dialog, .ib-setup).application > .window-header .window-icon { color: var(--rpgt-gold); }
+
+/* --- тёмное содержимое (у блокнота свой пергамент — его не трогаем) --- */
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-dialog, .hlp-window, .rtc-config-app, .torchlight-dialog, .ib-setup).application > .window-content {
+  background: linear-gradient(180deg, rgba(32, 25, 19, .97), rgba(14, 11, 9, .97));
+  color: var(--rpgt-text);
+}
+
+/* --- кнопки в окнах сборки --- */
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-dialog, .hlp-window, .rtc-config-app, .torchlight-dialog, .ib-setup).application .window-content button:not(.rs-switch) {
+  border-color: var(--rpgt-gold-dark);
+}
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-dialog, .hlp-window, .rtc-config-app, .torchlight-dialog, .ib-setup).application .window-content button:not(.rs-switch):not(:disabled):hover {
+  border-color: var(--rpgt-gold);
+  box-shadow: 0 0 8px rgba(201, 163, 91, .45);
+  color: var(--rpgt-gold-light);
+}
+:is(.rpg-suite-manager, .rpg-suite-help, .bg3rr-panel, .plr-reward, .rp-dialog, .s3d-config, .vp-config-dialog,
+    .rpp-dialog, .hlp-window, .rtc-config-app, .torchlight-dialog, .ib-setup).application .window-content :is(h2, h3, legend) {
+  color: var(--rpgt-gold-light);
+}

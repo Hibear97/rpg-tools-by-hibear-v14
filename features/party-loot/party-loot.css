@@ -1,0 +1,103 @@
+/* ================= Окно награды (мастер) ================= */
+.plr-reward .window-content { padding: 10px 12px; gap: 10px; display: flex; flex-direction: column; }
+.plr-reward h3 { margin: 0 0 6px; font-size: 14px; border-bottom: 1px solid rgba(200,170,110,.4); padding-bottom: 3px; color: #c8aa6e; }
+.plr-reward ul { list-style: none; margin: 0; padding: 0; }
+
+.plr-actors { display: flex; flex-wrap: wrap; gap: 6px; min-height: 44px; border-radius: 6px; padding: 4px; }
+.plr-actor { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,.25); border: 1px solid rgba(200,170,110,.35); border-radius: 20px; padding: 2px 8px 2px 2px; }
+.plr-actor.off { opacity: .45; }
+.plr-actor label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.plr-actor img { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #c8aa6e; object-fit: cover; }
+.plr-actor input { margin: 0; }
+
+.plr-drop { border: 2px dashed rgba(200,170,110,.45); border-radius: 8px; padding: 6px; min-height: 90px; transition: background .15s, border-color .15s; }
+.plr-drop.hover, .plr-drop-actors.hover { background: rgba(200,170,110,.12); border-color: #f0d58c; }
+.plr-drop-hint { text-align: center; opacity: .6; padding: 10px; font-size: 12px; }
+.plr-loot { display: flex; align-items: center; gap: 8px; padding: 4px; border-radius: 6px; background: rgba(0,0,0,.25); margin-bottom: 4px; }
+.plr-loot img { width: 38px; height: 38px; border: 2px solid var(--rarity); border-radius: 4px; box-shadow: 0 0 6px var(--rarity); cursor: pointer; }
+.plr-loot .info { flex: 1; display: flex; flex-direction: column; }
+.plr-loot .name { color: var(--rarity); font-weight: bold; text-shadow: 0 1px 1px #000; }
+.plr-loot .meta { font-size: 11px; opacity: .7; }
+.plr-icon { padding: 0 4px; opacity: .7; cursor: pointer; }
+.plr-icon:hover { opacity: 1; color: #f0d58c; }
+.plr-empty { opacity: .6; font-size: 12px; padding: 8px; }
+
+.plr-gold-row { display: flex; align-items: center; gap: 8px; }
+.plr-gold-row input { width: 110px; font-size: 16px; text-align: right; }
+.plr-unit { color: #f0c040; font-weight: bold; }
+.plr-share { margin-left: auto; font-size: 13px; }
+.plr-rest { opacity: .65; font-size: 11px; }
+
+.plr-footer { display: flex; gap: 8px; }
+.plr-footer button { flex: 1; }
+.plr-confirm { background: linear-gradient(#5a7d2a, #3b5418) !important; color: #fff !important; border-color: #8fbf3f !important; font-weight: bold; }
+
+/* ================= Окно розыгрыша (игрок, WoW-стиль) ================= */
+#plr-roll-stack {
+  position: fixed; top: 70px; left: 50%; transform: translateX(-50%); z-index: 120;
+  width: 380px; max-width: calc(100vw - 20px); display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+#plr-roll-stack .plr-roll-frame { pointer-events: auto; transition: opacity .2s, transform .2s; }
+#plr-roll-stack .plr-roll-frame.closing { opacity: 0; transform: translateY(-10px); }
+.plr-roll-frame {
+  background: linear-gradient(180deg, #1c1712 0%, #0d0b08 100%);
+  border: 2px solid #6b5a3a; border-radius: 6px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,220,150,.08);
+  padding: 8px 10px 6px; color: #eee; font-family: var(--font-primary);
+  animation: plr-in .25s ease-out;
+}
+@keyframes plr-in { from { transform: translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+.plr-roll-top { display: flex; align-items: center; gap: 10px; }
+.plr-roll-icon { width: 52px; height: 52px; border: 2px solid var(--rarity); border-radius: 4px; box-shadow: 0 0 10px var(--rarity); cursor: pointer; flex: none; }
+.plr-roll-info { flex: 1; min-width: 0; }
+.plr-roll-name { color: var(--rarity); font-weight: bold; font-size: 15px; text-shadow: 0 1px 2px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plr-roll-meta { font-size: 11px; color: #bbb; }
+.plr-roll-for { font-size: 11px; color: #c8aa6e; }
+.plr-roll-buttons { display: flex; gap: 4px; }
+.plr-btn {
+  width: 34px; height: 34px; line-height: 1; padding: 0; border-radius: 50%;
+  border: 2px solid #6b5a3a; background: radial-gradient(#3a3024, #15110c); font-size: 16px; cursor: pointer;
+}
+.plr-btn:hover { transform: scale(1.12); box-shadow: 0 0 8px currentColor; }
+.plr-btn-need  { color: #ffd34d; }
+.plr-btn-greed { color: #7fd0ff; }
+.plr-btn-pass  { color: #ff6060; }
+.plr-timer { position: relative; height: 12px; margin-top: 7px; background: #000; border: 1px solid #4a3f2a; border-radius: 3px; overflow: hidden; }
+.plr-timer-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #b3261e, #e0a020 40%, #f3d060); transition: width .1s linear; }
+.plr-timer-text { position: absolute; inset: 0; text-align: center; font-size: 10px; line-height: 12px; color: #fff; text-shadow: 0 0 2px #000; }
+
+/* ================= Чат ================= */
+.plr-chat h3 { margin: 0 0 4px; color: #7a5a1a; font-size: 16px; line-height: 1.2; }
+.plr-chat p { margin: 2px 0; }
+.plr-chat-loot { margin: 2px 0; padding: 0; list-style: none; }
+.plr-chat-loot li {
+  margin: 2px 0; padding: 2px 6px; border-left: 4px solid var(--rarity, #9d9d9d); border-radius: 3px;
+  background: rgba(0, 0, 0, .06); color: #2b2016; font-weight: bold;
+}
+.plr-open-btn { margin-top: 4px; font-weight: bold; }
+.plr-chat-item { display: flex; align-items: center; gap: 8px; background: #1a1510; border-radius: 4px; padding: 4px; margin-bottom: 4px; }
+.plr-chat-item img { width: 36px; height: 36px; border: 2px solid var(--rarity); border-radius: 4px; }
+.plr-chat-item span { font-weight: bold; text-shadow: 0 1px 1px #000; }
+.plr-chat-table { width: 100%; font-size: 12px; margin: 0; }
+.plr-chat-table td { padding: 2px 4px; }
+.plr-chat-table tr.win { background: rgba(240,192,64,.25); font-weight: bold; }
+.plr-chat-table .roll { text-align: right; font-family: monospace; }
+.plr-chat-table .c-need { color: #8a6a00; }
+.plr-chat-table .c-greed { color: #1a6a9a; }
+.plr-chat-table .c-pass { color: #9a2a2a; }
+.plr-verdict { margin: 4px 0 0; }
+
+/* ================= Кнопка в трекере боя ================= */
+.plr-tracker-btn { flex: 0 0 auto; width: auto; margin: 4px auto 0; padding: 2px 10px; font-size: 12px; line-height: 20px; color: #f0c040; }
+
+/* ---------- кому награда: персонажи игроков на сцене с галочками ---------- */
+.plr-reward .plr-count { float: right; font-size: 12px; font-weight: normal; opacity: .75; color: #e8dcc4; }
+.plr-reward .plr-actors { flex-direction: column; flex-wrap: nowrap; gap: 3px; max-height: 240px; overflow-y: auto; min-height: 0; }
+.plr-reward .plr-actor { border-radius: 6px; padding: 3px 8px 3px 4px; }
+.plr-reward .plr-actor:has(input:checked) { background: rgba(200, 170, 110, .16); border-color: rgba(240, 213, 140, .7); }
+.plr-reward .plr-actor label { flex: 1; min-width: 0; }
+.plr-reward .plr-actor .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; font-weight: bold; }
+.plr-reward .plr-actor .note { margin-left: auto; padding-left: 8px; font-size: 11px; opacity: .65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50%; }
+.plr-reward .plr-empty { opacity: .65; font-style: italic; padding: 6px; }
+.plr-reward .plr-select-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.plr-reward .plr-select-row button { flex: 1 1 30%; min-width: 0; font-size: 12px; line-height: 1.25; white-space: normal; padding: 3px 6px; height: auto; min-height: 28px; }

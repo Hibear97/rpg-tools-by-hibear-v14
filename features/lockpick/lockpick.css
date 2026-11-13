@@ -1,0 +1,33 @@
+.hlp-dialog p { margin: 0.35em 0; }
+.hlp-dialog .hlp-target { font-size: 1.1em; }
+.hlp-dialog .hlp-dc { opacity: 0.85; font-style: italic; }
+.hlp-dialog .hlp-note { color: #c96a1a; }
+.hlp-window .form-footer { flex-wrap: wrap; }
+.hlp-window .form-footer button { flex: 1 1 45%; }
+
+.hlp-chat { border-left: 4px solid #888; padding-left: 6px; }
+.hlp-chat h3 { margin: 0 0 4px; font-size: 1.05em; border: none; }
+.hlp-chat.success { border-color: #3a9a4a; }
+.hlp-chat.failure { border-color: #b03a2e; }
+.hlp-chat .hlp-broke { color: #b03a2e; font-weight: bold; }
+.hlp-gm { font-style: italic; opacity: 0.85; }
+
+fieldset.hlp-config { margin-top: 0.5em; }
+fieldset.hlp-config .hint { font-size: 0.85em; opacity: 0.75; margin: 0.25em 0 0; }
+
+/* ---------- RPG-Tools: общая палитра (тёмный фон, золотые рамки) ---------- */
+.hlp-window .window-content { background: linear-gradient(180deg, rgba(32, 25, 19, .96), rgba(14, 11, 9, .96)); color: #e8dcc4; }
+.hlp-dialog .hlp-target {
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px; margin-bottom: 6px;
+  border: 1px solid #6e5428; border-radius: 6px; background: rgba(0, 0, 0, .3); color: #f1d9a0;
+}
+.hlp-dialog .hlp-target i { color: #c9a35b; }
+.hlp-dialog .hlp-note { color: #e0a030; }
+.hlp-window .form-footer button {
+  border: 1px solid #6e5428; background: rgba(0, 0, 0, .35); color: #e8dcc4;
+}
+.hlp-window .form-footer button:hover { border-color: #c9a35b; box-shadow: 0 0 8px rgba(201, 163, 91, .45); color: #f1d9a0; }
+.hlp-window .form-footer button[data-action="cancel"] { opacity: .8; }
+.hlp-chat { border-left-color: #c9a35b; }
+fieldset.hlp-config { border: 1px solid #6e5428; border-radius: 6px; }
+fieldset.hlp-config legend { color: #c9a35b; }

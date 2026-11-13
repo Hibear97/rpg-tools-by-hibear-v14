@@ -1,0 +1,396 @@
+/* ===== Иконка губ (маска — работает без Font Awesome Pro) ===== */
+.gmw-icon::before {
+  content: "";
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  background-color: currentColor;
+  -webkit-mask: url("icons/lips.svg") center / contain no-repeat;
+  mask: url("icons/lips.svg") center / contain no-repeat;
+}
+
+/* ===== Общие стили окон ===== */
+.gm-whisper {
+  --gmw-accent: #c9a35b;
+  --gmw-accent-strong: #6e5428;
+}
+.gm-whisper .window-content {
+  display: flex;
+  flex-direction: column;
+}
+.gm-whisper .gmw-small {
+  flex: 0 0 auto;
+  width: auto;
+  height: 22px;
+  line-height: 20px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+.gm-whisper .gmw-danger:hover {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+.gm-whisper .gmw-empty {
+  opacity: 0.6;
+  font-style: italic;
+  text-align: center;
+  margin: 6px 0;
+}
+.gm-whisper .gmw-status {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #777;
+  flex: 0 0 8px;
+}
+.gm-whisper .gmw-status.on {
+  background: #4cd964;
+  box-shadow: 0 0 4px #4cd964;
+}
+
+/* ===== Окно ГМа ===== */
+.gmw-composer .gmw-root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.gmw-composer .gmw-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gmw-composer .gmw-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(201, 163, 91, 0.35);
+  padding-bottom: 3px;
+}
+.gmw-composer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.gmw-composer .gmw-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.gmw-composer .gmw-player:hover {
+  background: rgba(201, 163, 91, 0.08);
+}
+.gmw-composer .gmw-player:has(input:checked) {
+  border-color: var(--gmw-accent);
+  background: rgba(201, 163, 91, 0.18);
+}
+.gmw-composer .gmw-player input {
+  margin: 0;
+  flex: 0 0 auto;
+}
+.gmw-composer .gmw-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gmw-user-color, #999);
+  flex: 0 0 30px;
+}
+.gmw-composer .gmw-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+.gmw-composer textarea.gmw-text {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+}
+.gmw-composer .gmw-send {
+  background: linear-gradient(135deg, var(--gmw-accent-strong), var(--gmw-accent));
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  height: 34px;
+}
+.gmw-composer .gmw-send:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 10px rgba(201, 163, 91, 0.7);
+}
+.gmw-composer .gmw-thread {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: auto;
+  padding: 5px 8px;
+}
+.gmw-composer .gmw-unread {
+  background: #e0245e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 9px;
+  padding: 0 5px;
+}
+
+/* ===== Окно переписки ===== */
+.gmw-chat-app .window-content {
+  padding: 0;
+  overflow: hidden;
+}
+.gmw-chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+.gmw-chat .gmw-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(201, 163, 91, 0.3);
+}
+.gmw-chat .gmw-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: radial-gradient(ellipse at top, rgba(110, 84, 40, 0.18), transparent 70%), rgba(14, 11, 9, 0.55);
+}
+.gmw-chat .gmw-msg {
+  max-width: 82%;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.gmw-chat .gmw-msg.mine {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+.gmw-chat .gmw-meta {
+  font-size: 11px;
+  opacity: 0.65;
+  margin: 0 4px 2px;
+  color: #e8dcc4;
+}
+.gmw-chat .gmw-bubble {
+  padding: 7px 11px;
+  border-radius: 14px 14px 14px 4px;
+  background: #262019;
+  color: #eee;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-wrap: anywhere;
+  user-select: text;
+  line-height: 1.35;
+}
+.gmw-chat .gmw-msg.from-gm .gmw-bubble {
+  font-style: italic;
+}
+.gmw-chat .gmw-msg.mine .gmw-bubble {
+  background: linear-gradient(135deg, #4a3820, #8c6d3c);
+  color: #fff;
+  border-radius: 14px 14px 4px 14px;
+}
+.gmw-chat .gmw-msg.theirs.from-gm .gmw-bubble {
+  box-shadow: 0 0 8px rgba(201, 163, 91, 0.45);
+  border-color: rgba(201, 163, 91, 0.5);
+}
+.gmw-chat .gmw-group {
+  font-size: 11px;
+  opacity: 0.55;
+  margin: 2px 4px 0;
+  color: #e8dcc4;
+}
+.gmw-chat .gmw-messages .gmw-empty {
+  margin: auto;
+  color: #e8dcc4;
+}
+.gmw-chat .gmw-input {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  border-top: 1px solid rgba(201, 163, 91, 0.3);
+}
+.gmw-chat .gmw-input textarea {
+  flex: 1;
+  height: 54px;
+  min-height: 54px;
+  resize: none;
+}
+.gmw-chat .gmw-input button {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 54px;
+  background: linear-gradient(135deg, #6e5428, #c9a35b);
+  color: #fff;
+  border: none;
+}
+.gmw-chat .gmw-input button:hover {
+  box-shadow: 0 0 10px rgba(201, 163, 91, 0.7);
+}
+
+/* ===== Оповещение по центру экрана ===== */
+#gm-whisper-notify {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  animation: gmw-pop-in 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+#gm-whisper-notify .gmw-bump.bumping {
+  animation: gmw-bump 0.45s ease-out;
+}
+#gm-whisper-notify .gmw-notify-box {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #2a2018, #120e0a);
+  border: 2px solid #f1d9a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gmw-glow 1.6s ease-in-out infinite;
+}
+#gm-whisper-notify.shake .gmw-notify-box {
+  animation: gmw-glow 1.6s ease-in-out infinite, gmw-shake 2.8s ease-in-out infinite;
+}
+#gm-whisper-notify:hover .gmw-notify-box {
+  border-color: #fff;
+}
+/* Облачко сообщения с тремя точками */
+#gm-whisper-notify .gmw-notify-bubble {
+  position: relative;
+  width: 48px;
+  height: 34px;
+  margin-top: -4px;
+  border-radius: 16px;
+  background: #f1d9a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+#gm-whisper-notify .gmw-notify-bubble::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  bottom: -7px;
+  border-style: solid;
+  border-width: 9px 9px 0 0;
+  border-color: #f1d9a0 transparent transparent transparent;
+}
+#gm-whisper-notify .gmw-notify-bubble i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6e5428;
+  animation: gmw-dot 1.2s ease-in-out infinite;
+}
+#gm-whisper-notify .gmw-notify-bubble i:nth-child(2) { animation-delay: 0.15s; }
+#gm-whisper-notify .gmw-notify-bubble i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes gmw-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+#gm-whisper-notify .gmw-badge {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background: #e0245e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #120e0a;
+}
+#gm-whisper-notify .gmw-badge[hidden] {
+  display: none;
+}
+#gm-whisper-notify .gmw-notify-label {
+  color: #f1d9a0;
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 3px 12px;
+  border-radius: 10px;
+  background: rgba(14, 11, 9, 0.7);
+  text-shadow: 0 0 6px #c9a35b, 0 1px 2px #000;
+}
+
+@keyframes gmw-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px 2px rgba(241, 217, 160, 0.55), inset 0 0 6px rgba(241, 217, 160, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 24px 9px rgba(241, 217, 160, 0.9), inset 0 0 12px rgba(241, 217, 160, 0.55);
+  }
+}
+@keyframes gmw-shake {
+  0%, 68%, 100% { transform: rotate(0deg); }
+  71% { transform: rotate(-12deg); }
+  74% { transform: rotate(10deg); }
+  77% { transform: rotate(-8deg); }
+  80% { transform: rotate(6deg); }
+  83% { transform: rotate(-3deg); }
+  86% { transform: rotate(0deg); }
+}
+@keyframes gmw-pop-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes gmw-bump {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #gm-whisper-notify,
+  #gm-whisper-notify .gmw-notify-box,
+  #gm-whisper-notify .gmw-notify-bubble i,
+  #gm-whisper-notify .gmw-bump.bumping {
+    animation: none !important;
+  }
+}

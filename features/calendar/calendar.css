@@ -1,0 +1,485 @@
+/* Calendar Tool by Hibear */
+
+:root {
+  --rtc-gold: #c9a35b;
+  --rtc-gold-dim: rgba(201, 163, 91, 0.35);
+  --rtc-bg: rgba(14, 11, 9, 0.92);
+  --rtc-text: #f1ead8;
+  --rtc-muted: #b5ab95;
+}
+
+/* ============================== ВИДЖЕТ ============================== */
+
+#rtc-widget {
+  position: fixed;
+  z-index: 70;
+  width: 290px;
+  color: var(--rtc-text);
+  background: var(--rtc-bg);
+  border: 1px solid var(--rtc-gold-dim);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  font-family: var(--font-primary, "Signika"), sans-serif;
+  overflow: hidden;
+  user-select: none;
+  transition: width 0.25s ease;
+}
+#rtc-widget.dragging { opacity: 0.85; cursor: grabbing; }
+
+.rtc-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 10px;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--rtc-gold);
+  background: linear-gradient(180deg, rgba(201, 163, 91, 0.14), rgba(201, 163, 91, 0.02));
+  border-bottom: 1px solid var(--rtc-gold-dim);
+  cursor: grab;
+}
+.rtc-weekday { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.rtc-run {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.rtc-run.on { color: #8fe08a; }
+.rtc-run.held { color: #f0c060; }
+.rtc-run.off { color: #9a9a9a; }
+.rtc-hbtn { color: var(--rtc-muted); padding: 0 2px; }
+.rtc-hbtn:hover { color: var(--rtc-gold); text-shadow: none; }
+#rtc-widget.collapsed .rtc-hbtn i { transform: rotate(180deg); }
+
+/* --- небо --- */
+.rtc-sky {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  min-height: 76px;
+  overflow: hidden;
+  transition: background 2s ease;
+  background: linear-gradient(180deg, #3d8fe0, #8ccaff);
+}
+#rtc-widget[data-period="night"]   .rtc-sky { background: linear-gradient(180deg, #070b1d 0%, #141c44 70%, #1f2a5c 100%); }
+#rtc-widget[data-period="dawn"]    .rtc-sky { background: linear-gradient(180deg, #27336a 0%, #b9617a 55%, #f6b27a 100%); }
+#rtc-widget[data-period="morning"] .rtc-sky { background: linear-gradient(180deg, #5aa4e6 0%, #a8d8ff 70%, #ffe7b8 100%); }
+#rtc-widget[data-period="day"]     .rtc-sky { background: linear-gradient(180deg, #2f7fd6 0%, #6fb8f5 60%, #a9dbff 100%); }
+#rtc-widget[data-period="evening"] .rtc-sky { background: linear-gradient(180deg, #3b5ea8 0%, #8f8fc0 50%, #f1b47c 100%); }
+#rtc-widget[data-period="dusk"]    .rtc-sky { background: linear-gradient(180deg, #1e2252 0%, #8a3f78 50%, #f08a4b 100%); }
+
+/* затемнение по погоде */
+.rtc-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(70, 78, 96, 0);
+  transition: background 1.5s ease;
+}
+#rtc-widget[data-weather="cloudy"] .rtc-sky::before,
+#rtc-widget[data-weather="fog"] .rtc-sky::before,
+#rtc-widget[data-weather="snow"] .rtc-sky::before { background: rgba(90, 98, 116, 0.45); }
+#rtc-widget[data-weather="rain"] .rtc-sky::before { background: rgba(55, 64, 84, 0.5); }
+#rtc-widget[data-weather="storm"] .rtc-sky::before,
+#rtc-widget[data-weather="blizzard"] .rtc-sky::before { background: rgba(30, 34, 48, 0.6); }
+
+/* эффекты на фоне неба */
+.rtc-fx { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1s; }
+#rtc-widget[data-weather="rain"] .rtc-fx,
+#rtc-widget[data-weather="storm"] .rtc-fx {
+  opacity: 0.35;
+  background-image: repeating-linear-gradient(105deg, transparent 0 9px, rgba(180, 215, 255, 0.7) 9px 10px, transparent 10px 22px);
+  background-size: 60px 60px;
+  animation: rtc-fx-rain 0.6s linear infinite;
+}
+#rtc-widget[data-weather="snow"] .rtc-fx,
+#rtc-widget[data-weather="blizzard"] .rtc-fx {
+  opacity: 0.6;
+  background-image:
+    radial-gradient(circle, #fff 1.2px, transparent 1.6px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1.4px);
+  background-size: 34px 34px, 22px 22px;
+  background-position: 0 0, 11px 7px;
+  animation: rtc-fx-snow 4s linear infinite;
+}
+#rtc-widget[data-weather="blizzard"] .rtc-fx { animation-duration: 1.3s; }
+#rtc-widget[data-weather="storm"] .rtc-sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0;
+  animation: rtc-flash 6s infinite;
+}
+#rtc-widget[data-weather="fog"] .rtc-fx {
+  opacity: 0.55;
+  background: linear-gradient(90deg, transparent, rgba(230, 235, 240, 0.6), transparent);
+  background-size: 200% 100%;
+  animation: rtc-fx-fog 7s ease-in-out infinite alternate;
+}
+#rtc-widget.night .rtc-fx::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 45% 75%, #fff, transparent),
+    radial-gradient(1px 1px at 92% 15%, #fff, transparent);
+  animation: rtc-twinkle 3s ease-in-out infinite;
+}
+#rtc-widget.night[data-weather="clear"] .rtc-fx,
+#rtc-widget.night[data-weather="partly"] .rtc-fx,
+#rtc-widget.night[data-weather="windy"] .rtc-fx { opacity: 1; }
+
+.rtc-icon { position: relative; width: 60px; height: 60px; flex: 0 0 60px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35)); }
+.rtc-icon .rtc-svg { width: 100%; height: 100%; overflow: visible; }
+
+.rtc-clock { position: relative; flex: 1; min-width: 0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); }
+.rtc-time {
+  font-family: "Modesto Condensed", var(--font-primary, serif);
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.rtc-period { margin-top: 2px; font-size: 12px; line-height: 1.15; color: rgba(255, 255, 255, 0.92); }
+
+.rtc-temp {
+  position: relative;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: color 1s;
+}
+.rtc-temp[data-t="freezing"]  { color: #9fd7ff; }
+.rtc-temp[data-t="cold"]      { color: #bfe6ff; }
+.rtc-temp[data-t="cool"]      { color: #e6f6ff; }
+.rtc-temp[data-t="warm"]      { color: #ffe9a8; }
+.rtc-temp[data-t="hot"]       { color: #ffbf6b; }
+.rtc-temp[data-t="scorching"] { color: #ff8a5c; }
+
+/* --- нижняя часть --- */
+.rtc-body { padding: 7px 12px 8px; font-size: 13px; }
+.rtc-date { color: var(--rtc-gold); font-weight: 600; }
+.rtc-weather { color: var(--rtc-muted); font-size: 12px; margin-top: 2px; }
+.rtc-weather i { opacity: 0.7; margin-right: 2px; }
+
+.rtc-daybar { position: relative; height: 8px; margin-top: 8px; }
+.rtc-daybar-track { position: absolute; inset: 1px 0; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.rtc-daybar-mark {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff4b0, #ffc93c 60%, #f0a020);
+  box-shadow: 0 0 8px #ffc93c;
+  transition: left 1s linear;
+}
+.rtc-daybar-mark.moon { background: radial-gradient(circle at 35% 35%, #fff, #e4e0c8 60%, #a9a58e); box-shadow: 0 0 8px rgba(220, 230, 255, 0.8); }
+
+/* --- панель ГМа --- */
+.rtc-gm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-top: 1px solid var(--rtc-gold-dim);
+  background: rgba(0, 0, 0, 0.25);
+}
+.rtc-gm a {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+  color: var(--rtc-text);
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s;
+}
+.rtc-gm a:hover { background: rgba(201, 163, 91, 0.2); color: var(--rtc-gold); text-shadow: none; }
+.rtc-gm .rtc-play { color: #8fe08a; border: 1px solid rgba(143, 224, 138, 0.4); }
+.rtc-sep { width: 1px; height: 18px; background: var(--rtc-gold-dim); }
+
+/* --- свёрнутый режим --- */
+#rtc-widget.collapsed { width: 210px; }
+#rtc-widget.collapsed .rtc-body,
+#rtc-widget.collapsed .rtc-gm { display: none; }
+#rtc-widget.collapsed .rtc-sky { min-height: 0; padding: 4px 10px; gap: 8px; }
+#rtc-widget.collapsed .rtc-icon { width: 38px; height: 38px; flex-basis: 38px; }
+#rtc-widget.collapsed .rtc-time { font-size: 24px; }
+#rtc-widget.collapsed .rtc-period { display: none; }
+#rtc-widget.collapsed .rtc-temp { font-size: 15px; }
+
+/* ============================== АНИМАЦИИ SVG ============================== */
+
+.rtc-svg .rtc-rays { transform-box: fill-box; transform-origin: center; animation: rtc-spin 14s linear infinite; }
+.rtc-svg .rtc-sun-core { transform-box: fill-box; transform-origin: center; animation: rtc-pulse 4s ease-in-out infinite; }
+.rtc-svg .rtc-moon { filter: drop-shadow(0 0 4px rgba(240, 236, 200, 0.6)); animation: rtc-moonglow 5s ease-in-out infinite; }
+.rtc-svg .rtc-star { animation: rtc-twinkle 2.4s ease-in-out infinite; }
+.rtc-svg .rtc-cloud { animation: rtc-drift 6s ease-in-out infinite alternate; }
+.rtc-svg .rtc-cloud.slow { animation-duration: 9s; animation-direction: alternate-reverse; }
+.rtc-svg .rtc-drop { animation: rtc-fall 0.9s linear infinite; }
+.rtc-svg .rtc-flake { transform-box: fill-box; animation: rtc-snowfall 2.6s linear infinite; }
+.rtc-svg .rtc-bolt { animation: rtc-bolt 3.2s infinite; }
+.rtc-svg .rtc-gust { stroke-dasharray: 60 100; animation: rtc-gust 2.4s ease-in-out infinite; }
+.rtc-svg .rtc-gust.g2 { animation-delay: 0.5s; }
+.rtc-svg .rtc-gust.g3 { animation-delay: 1s; }
+.rtc-svg .rtc-fogline { animation: rtc-fogmove 4s ease-in-out infinite alternate; }
+.rtc-svg .rtc-fogline.f2 { animation-delay: -1.5s; }
+.rtc-svg .rtc-fogline.f3 { animation-delay: -3s; }
+
+@keyframes rtc-spin { to { transform: rotate(360deg); } }
+@keyframes rtc-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes rtc-moonglow { 0%, 100% { opacity: 0.92; } 50% { opacity: 1; } }
+@keyframes rtc-twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes rtc-drift { from { transform: translateX(-2px); } to { transform: translateX(2.5px); } }
+@keyframes rtc-fall {
+  0% { transform: translate(0, -4px); opacity: 0.25; }
+  20% { opacity: 1; }
+  100% { transform: translate(-3px, 12px); opacity: 0; }
+}
+@keyframes rtc-snowfall {
+  0% { transform: translate(0, -4px); opacity: 0.35; }
+  20% { opacity: 1; }
+  50% { transform: translate(2px, 5px); }
+  100% { transform: translate(-1px, 16px); opacity: 0; }
+}
+@keyframes rtc-bolt { 0%, 60%, 76%, 100% { opacity: 0.85; } 62%, 70% { opacity: 0.1; } 64%, 68%, 72% { opacity: 1; filter: drop-shadow(0 0 4px #fff3a0); } }
+@keyframes rtc-flash { 0%, 62%, 66%, 100% { opacity: 0; } 63%, 65% { opacity: 0.25; } }
+@keyframes rtc-gust {
+  0% { stroke-dashoffset: 60; opacity: 0; }
+  15%, 75% { opacity: 1; }
+  100% { stroke-dashoffset: -100; opacity: 0; }
+}
+@keyframes rtc-fogmove { from { transform: translateX(-4px); opacity: 0.6; } to { transform: translateX(4px); opacity: 1; } }
+@keyframes rtc-fx-rain { to { background-position: -20px 60px; } }
+@keyframes rtc-fx-snow { to { background-position: -10px 34px, 1px 29px; } }
+@keyframes rtc-fx-fog { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rtc-svg *, .rtc-fx, .rtc-sky::after { animation: none !important; }
+}
+
+/* ============================== ОКНО НАСТРОЕК ============================== */
+
+.rtc-config-app .window-content { padding: 0; }
+.rtc-cfg { display: flex; flex-direction: column; height: 100%; }
+.rtc-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 8px 0;
+  border-bottom: 1px solid var(--rtc-gold-dim);
+  flex: 0 0 auto;
+}
+.rtc-tabs a {
+  padding: 6px 12px;
+  border-radius: 8px 8px 0 0;
+  color: var(--color-text-secondary, #aaa);
+  border: 1px solid transparent;
+  border-bottom: none;
+}
+.rtc-tabs a.active { color: var(--rtc-gold); border-color: var(--rtc-gold-dim); background: rgba(201, 163, 91, 0.08); }
+.rtc-tabs a:hover { color: var(--rtc-gold); text-shadow: none; }
+.rtc-pane { display: none; padding: 6px 14px 10px; overflow-y: auto; flex: 1; }
+.rtc-pane.active { display: block; }
+.rtc-pane h3 {
+  margin: 12px 0 6px;
+  padding-bottom: 3px;
+  font-size: 14px;
+  color: var(--rtc-gold);
+  border-bottom: 1px solid var(--rtc-gold-dim);
+}
+.rtc-pane h3 i { margin-right: 4px; }
+.rtc-pane h3 small { font-weight: normal; color: var(--color-text-secondary, #999); font-size: 11px; margin-left: 6px; }
+.rtc-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; margin: 6px 0; }
+.rtc-row label { display: flex; flex-direction: column; gap: 2px; font-size: 12px; min-width: 70px; flex: 0 1 100px; }
+.rtc-row label.grow, .rtc-row .grow { flex: 1 1 180px; }
+.rtc-row input[type="number"], .rtc-row input[type="text"], .rtc-row select { width: 100%; }
+.rtc-check { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 13px; }
+.rtc-row label.rtc-check { flex-direction: row; flex: 1 1 auto; min-width: 0; }
+.rtc-check input { margin: 0; }
+.rtc-inline { display: flex; align-items: center; gap: 6px; margin: 6px 0; font-size: 13px; }
+.rtc-inline input[type="number"] { width: 60px; }
+.rtc-inline input[type="range"] { flex: 1; }
+.rtc-hint { font-size: 12px; color: var(--color-text-secondary, #999); margin: 8px 0 0; }
+.rtc-cfg textarea { width: 100%; font-family: var(--font-mono, monospace); font-size: 12px; resize: vertical; }
+
+.rtc-quick { display: flex; gap: 4px; flex: 1 1 260px; flex-wrap: wrap; }
+.rtc-quick button, .rtc-presets button { flex: 1 1 auto; width: auto; font-size: 12px; line-height: 24px; padding: 0 8px; white-space: nowrap; }
+
+.rtc-conv { align-items: center; }
+.rtc-conv input { flex: 0 0 70px; width: 70px !important; }
+.rtc-conv select { flex: 0 0 80px; width: 80px !important; }
+.rtc-eq { font-size: 13px; color: var(--color-text-secondary, #aaa); }
+.rtc-presets { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
+
+.rtc-preview {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--rtc-gold-dim);
+  background: rgba(201, 163, 91, 0.07);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.rtc-preview i { width: 18px; color: var(--rtc-gold); }
+.rtc-preview b { color: var(--rtc-gold); }
+
+.rtc-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 6px; }
+.rtc-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  height: auto;
+  padding: 6px 4px;
+  line-height: 1.2;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, #2f6fb8, #6aa9e0);
+  color: #fff;
+  font-size: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.rtc-tiles.night .rtc-tile { background: linear-gradient(180deg, #0b1130, #26326a); }
+.rtc-tile .rtc-svg { width: 52px; height: 52px; overflow: visible; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
+.rtc-tile:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35); }
+.rtc-tile.active { border-color: var(--rtc-gold); box-shadow: 0 0 0 2px var(--rtc-gold), 0 0 14px rgba(201, 163, 91, 0.5); }
+.rtc-wind-label { color: var(--rtc-gold); font-weight: 600; }
+
+.rtc-moonnow { display: flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 10px; background: #141c44; color: #e6e2cc; font-size: 12px; }
+.rtc-moonnow .rtc-svg { width: 40px; height: 40px; }
+
+.rtc-btn { width: auto; flex: 0 0 auto; padding: 0 12px; line-height: 28px; }
+.rtc-cfg-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--rtc-gold-dim);
+  flex: 0 0 auto;
+}
+.rtc-cfg-footer .rtc-btn { flex: 1; }
+.rtc-btn.primary { border-color: var(--rtc-gold); color: var(--rtc-gold); }
+
+/* ============================== ЧАТ ============================== */
+
+.rtc-chat {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #24365e, #3d6aa8);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.rtc-chat-icon { width: 54px; height: 54px; flex: 0 0 54px; }
+.rtc-chat-icon .rtc-svg { width: 100%; height: 100%; overflow: visible; }
+.rtc-chat-text { font-size: 12px; line-height: 1.35; }
+.rtc-chat-date { opacity: 0.85; }
+.rtc-chat-title { font-size: 16px; font-weight: 700; color: #ffe39a; }
+
+/* ============================== ЛОКАЦИЯ ============================== */
+
+.rtc-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--rtc-gold-dim);
+  background:
+    linear-gradient(90deg, rgba(201, 163, 91, 0.16), rgba(201, 163, 91, 0.02) 70%),
+    rgba(0, 0, 0, 0.2);
+}
+.rtc-location[hidden] { display: none; }
+.rtc-pin {
+  font-size: 18px;
+  color: #e0574f;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6));
+  animation: rtc-pin-bob 2.8s ease-in-out infinite;
+}
+.rtc-loc-text { flex: 1; min-width: 0; }
+.rtc-loc-name {
+  font-family: "Modesto Condensed", var(--font-primary, serif);
+  font-size: 19px;
+  line-height: 1.05;
+  color: #fff3d6;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  overflow-wrap: anywhere;
+}
+.rtc-loc-region { font-size: 11px; color: var(--rtc-muted); font-style: italic; }
+.rtc-loc-edit { color: var(--rtc-muted); font-size: 11px; opacity: 0; transition: opacity 0.15s; }
+.rtc-location:hover .rtc-loc-edit { opacity: 1; }
+.rtc-loc-edit:hover, .rtc-loc-add:hover { color: var(--rtc-gold); text-shadow: none; }
+.rtc-location.empty { padding: 4px 12px; }
+.rtc-loc-add { font-size: 12px; color: var(--rtc-muted); font-style: italic; }
+
+.rtc-location.editing { display: block; }
+.rtc-loc-form { display: flex; flex-direction: column; gap: 4px; }
+.rtc-loc-form input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 24px;
+  padding: 0 6px;
+  font-size: 12px;
+  color: var(--rtc-text);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--rtc-gold-dim);
+  border-radius: 5px;
+}
+.rtc-loc-form input[type="text"]:focus { border-color: var(--rtc-gold); box-shadow: 0 0 4px rgba(201, 163, 91, 0.5); outline: none; }
+.rtc-loc-actions { display: flex; align-items: center; gap: 4px; }
+.rtc-loc-actions label { flex: 1; display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--rtc-muted); }
+.rtc-loc-actions label input { margin: 0; width: 13px; height: 13px; }
+.rtc-loc-actions a {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 22px;
+  border-radius: 5px;
+  color: var(--rtc-text);
+  font-size: 12px;
+}
+.rtc-loc-actions a:hover { background: rgba(201, 163, 91, 0.2); color: var(--rtc-gold); text-shadow: none; }
+.rtc-loc-actions a.ok { color: #8fe08a; border: 1px solid rgba(143, 224, 138, 0.45); }
+
+#rtc-widget.collapsed .rtc-location { padding: 3px 10px; }
+#rtc-widget.collapsed .rtc-loc-name { font-size: 15px; }
+#rtc-widget.collapsed .rtc-loc-region,
+#rtc-widget.collapsed .rtc-location.empty { display: none; }
+
+.rtc-recent button { flex: 0 1 auto; }
+.rtc-recent button i { color: #e0574f; margin-right: 2px; }
+
+.rtc-chat-loc { background: linear-gradient(135deg, #3b2a1a, #6e4a26); }
+.rtc-chat-pin { width: 40px; flex: 0 0 40px; text-align: center; font-size: 30px; color: #ff6b5e; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6)); }
+
+@keyframes rtc-pin-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+/* --- редактор месяцев --- */
+.rtc-months { display: flex; flex-direction: column; gap: 4px; max-height: 260px; overflow-y: auto; padding: 4px; border: 1px solid rgba(200,165,90,.25); border-radius: 6px; background: rgba(0,0,0,.18); }
+.rtc-month { display: grid; grid-template-columns: 1fr 64px 92px 26px 26px 26px; gap: 4px; align-items: center; }
+.rtc-month input, .rtc-month select { width: 100%; height: 26px; }
+.rtc-month button { width: 26px; height: 26px; padding: 0; line-height: 24px; font-size: 11px; }
+.rtc-month button[data-mact="del"]:hover { color: #ff8a7a; }
+.rtc-addmonth { display: grid; grid-template-columns: 1fr 1.4fr 64px 92px 96px auto; gap: 4px; align-items: center; margin-top: 6px; padding: 6px; border: 1px dashed rgba(200,165,90,.45); border-radius: 6px; }
+.rtc-addmonth-title { font-size: 12px; color: #e7c77a; white-space: nowrap; }
+.rtc-addmonth input, .rtc-addmonth select { width: 100%; height: 26px; }
+.rtc-btn.rtc-mini { display: inline-flex; padding: 0 6px; height: 20px; font-size: 11px; width: auto; }

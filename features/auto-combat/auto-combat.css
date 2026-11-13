@@ -1,0 +1,27 @@
+.ac5e-card header {
+  font-weight: bold;
+  font-size: 1.05em;
+  border-bottom: 1px solid var(--color-border-light-2, #999);
+  margin-bottom: 4px;
+  padding-bottom: 2px;
+}
+.ac5e-card ul { list-style: none; margin: 4px 0; padding: 0; }
+.ac5e-card li { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+.ac5e-card li img { border: none; border-radius: 4px; flex: 0 0 28px; }
+.ac5e-card .ac5e-name { flex: 1; }
+.ac5e-card .ac5e-status button { line-height: 20px; padding: 0 6px; width: auto; }
+.ac5e-card .ac5e-save-info { margin: 2px 0; }
+.ac5e-card .ac5e-ok { color: #2e7d32; font-weight: bold; }
+.ac5e-card .ac5e-fail { color: #c62828; font-weight: bold; }
+.ac5e-card .ac5e-dmg { color: #c62828; font-weight: bold; }
+.ac5e-card .ac5e-heal { color: #2e7d32; font-weight: bold; }
+.ac5e-card .ac5e-miss, .ac5e-card .ac5e-zero { opacity: 0.7; font-style: italic; }
+.ac5e-card > button { margin-top: 4px; }
+.ac5e-undone { opacity: 0.5; text-decoration: line-through; }
+
+/* отчёт мастеру: атака против КД, спасбросок против СЛ */
+.ac5e-card.ac5e-report { border-left: 4px solid #6b4aa8; }
+.ac5e-card.ac5e-report header { font-weight: bold; }
+.ac5e-card.ac5e-report .ac5e-report-roll { margin: 4px 0 2px; font-size: 14px; }
+.ac5e-card.ac5e-report .ac5e-dim { opacity: .65; font-weight: normal; font-size: 12px; }
+.ac5e-card.ac5e-report ul { margin: 2px 0 0; }

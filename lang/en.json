@@ -1,0 +1,823 @@
+{
+  "BG3HUD": {
+    "Settings": {
+      "enabled": {
+        "name": "UI HUD · Enable UI HUD",
+        "hint": "Show the game bottom panel (per client)."
+      },
+      "hideHotbar": {
+        "name": "UI HUD · Hide core macro hotbar",
+        "hint": "Hides the default Foundry hotbar since the skillbar replaces it."
+      },
+      "hideSidebarTabs": {
+        "name": "UI HUD · Sidebar tabs → micro menu",
+        "hint": "Hides the sidebar tab strip and shows the tabs as small buttons in the bottom right, like World of Warcraft."
+      },
+      "onlyPrepared": {
+        "name": "UI HUD · Prepared spells only",
+        "hint": "Show only cantrips and prepared spells on the skillbar."
+      },
+      "showAllResources": {
+        "name": "UI HUD · All features with uses",
+        "hint": "Show every feature with limited uses above the bar, not just known class resources."
+      },
+      "scale": {
+        "name": "UI HUD · HUD scale",
+        "hint": "Size of the bottom panel."
+      },
+      "vpDock": {
+        "name": "UI HUD · Voice Portraits: dock into HUD",
+        "hint": "If Voice Portraits is enabled: your circle portrait reacts to your voice and the other players' and GM's portraits form a party column on the left."
+      },
+      "vpPartySize": {
+        "name": "UI HUD · Voice Portraits: party column size",
+        "hint": "Size of the other players' portraits on the left (px)."
+      },
+      "playerTabs": {
+        "name": "UI HUD · 4 tabs for everyone",
+        "hint": "Favorites, Attack, Spells, Reactions — the same bar for players and for the GM when a token is selected. Turn off to get the old 7-tab bar back."
+      },
+      "playerMacros": {
+        "name": "UI HUD · Players may add macros to Favorites",
+        "hint": "Allow players to drag macros they can access onto their bar."
+      },
+      "playerLock": {
+        "name": "UI HUD · Bar lock",
+        "hint": ""
+      }
+    },
+    "Keybind": {
+      "toggle": "UI HUD · Toggle UI HUD"
+    },
+    "Action": "Action",
+    "Bonus": "Bonus Action",
+    "Reaction": "Reaction",
+    "EconHint": "Click to mark spent / restore",
+    "Movement": "Movement",
+    "MoveHint": "Left click — Dash (double speed), right click — reset moved distance",
+    "Dash": "Dash",
+    "SpellSlots": "Spell Slots",
+    "Pact": "Pact",
+    "Level": "Lvl",
+    "PipHint": "Click a pip to spend / restore",
+    "ResHint": "Click the icon to use the feature",
+    "Tabs": {
+      "favorites": "Favorites",
+      "all": "All",
+      "attack": "Attacks",
+      "spell": "Spells",
+      "feature": "Features",
+      "item": "Items",
+      "custom": "Custom Bar"
+    },
+    "FavHint": "Drag items/spells here from the character sheet. Shift+click to remove.",
+    "SlotHint": "Click to use, right click to open",
+    "Cantrip": "Cantrip",
+    "SpellLevel": "Level",
+    "Uses": "Uses",
+    "Quantity": "Qty",
+    "EndTurn": "End Turn",
+    "NotYourTurn": "Not your turn",
+    "NotInCombat": "Only available in combat",
+    "YourTurn": "Your turn!",
+    "Round": "Round",
+    "ShortRest": "Short Rest",
+    "LongRest": "Long Rest",
+    "DeathSave": "Death Saving Throw",
+    "ArmorClass": "Armor Class",
+    "HP": "Hit Points",
+    "NoActor": "Select a token or assign a character",
+    "Removed": "Removed from favorites",
+    "CustomHint": "drop macros, weapons, items, features, roll tables, journals here — anything the core hotbar accepts. Click to use, right click to open, Shift+click to remove, drag to swap.",
+    "CustomEmptyHint": "Empty slot: drop anything here or click to create a new macro",
+    "NewMacro": "New Macro",
+    "Import": "Copy macros from the core Foundry hotbar",
+    "Imported": "Macros copied: {n}",
+    "Missing": "Document not found (deleted?) — Shift+click to remove",
+    "MacroCreateFail": "Could not create macro (no permission?)",
+    "VpMic": "Toggle microphone",
+    "VpMuted": "Microphone muted",
+    "VpPortraitHint": "Right click — emotions and portrait setup",
+    "Inspiration": "Inspiration",
+    "PTabs": {
+      "favorites": "Favorites — drop anything here, including macros",
+      "attack": "Attack — weapons and attack features",
+      "spell": "Spells",
+      "reaction": "Reactions"
+    },
+    "PMacro": "macro",
+    "PLock": "Lock the bar — slots can't be dragged or removed by accident",
+    "PUnlock": "Bar is locked — click to drag slots again",
+    "PUse": "Use",
+    "PChat": "Show in chat",
+    "PDesc": "Read description",
+    "PAddFav": "Add to favorites",
+    "PAddedFav": "added to favorites",
+    "PRemove": "Remove from bar",
+    "PClose": "Close",
+    "PNoDesc": "No description.",
+    "PLockedHint": "The bar is locked — unlock it to change slots.",
+    "PMacroOnlyFav": "Macros can only go to the Favorites tab.",
+    "PMacroDenied": "The GM doesn't allow adding this macro to the bar.",
+    "POnlyOwn": "Only your own character's items and spells can go on the bar."
+  },
+  "RPGSUITE": {
+    "Manager": {
+      "title": "RPG-Tools by Hibear — control center",
+      "menuName": "Control center",
+      "menuLabel": "Open control center",
+      "menuHint": "All module features in one window: enable/disable, description and settings for each.",
+      "hint": "Features are listed on the left. The switch turns a feature on or off for the whole world. The right side shows what the selected feature does and its settings.",
+      "playerHint": "Only the GM can enable or disable features. Here you can read what each feature does and change your personal settings.",
+      "running": "running",
+      "stopped": "disabled",
+      "pendingOn": "will be enabled after saving",
+      "pendingOff": "will be disabled after saving",
+      "failed": "failed to start — see console (F12)",
+      "legacy": "The old standalone module “{module}” is enabled — disable it, otherwise this feature will not start",
+      "conflict": "Module “{module}” is enabled and does the same thing — keep only one",
+      "needsSystem": "Requires the D&D 5e system (dnd5e)",
+      "all": "Enable all",
+      "none": "Disable all",
+      "save": "Save",
+      "saved": "Settings saved",
+      "reloadNote": "Enabling or disabling features reloads the page for all players.",
+      "features": "Features",
+      "whatItDoes": "What it does",
+      "settings": "Settings",
+      "worldSettings": "World (GM)",
+      "clientSettings": "My settings (this browser only)",
+      "noSettings": "This feature has no settings.",
+      "offSettings": "This feature is disabled. Enable it and save — its settings appear here after the reload.",
+      "open": "Open",
+      "browse": "Browse",
+      "toolTitle": "RPG-Tools by Hibear — control center",
+      "keybind": "Open RPG-Tools by Hibear control center",
+      "enabled": "Enabled",
+      "author": "Author: Hibear",
+      "howItWorks": "How does it work?",
+      "discordHelp": "How to run the Discord bot",
+      "backToPortraits": "Back to voice portraits",
+      "recommends": "Module “{module}” is recommended — some features need it"
+    },
+    "Features": {
+      "hud": {
+        "title": "UI HUD",
+        "description": "A handy game bottom bar replacing the default hotbar.",
+        "details": "Portrait, HP and AC\nSkill bar with tabs and a custom macro bar\nAction / bonus / reaction pips and movement with Dash\nSpell slots and class resources\nEnd turn, short and long rest\nWoW-style micro menu instead of sidebar tabs\nEach player can hide it (Shift+H)\n4 tabs for everyone: Favorites, Attack, Spells, Reactions — drag freely, right-click menu, lock"
+      },
+      "portraits": {
+        "title": "Voice portraits",
+        "description": "Player and GM portraits that animate when the person talks.",
+        "details": "Voice from a Discord bot, Yandex Telemost or Foundry A/V\nEmotions and chat bubbles\nWith the UI HUD: your portrait in the circle, others in a column on the left"
+      },
+      "combat": {
+        "title": "Auto combat: damage and saves",
+        "description": "Checks hits against AC and applies damage; collects saving throws for cones and AoE.",
+        "details": "Attack vs target AC (nat 20 always hits, nat 1 always misses)\nDamage auto-rolls and applies only to targets that were hit\nAoE: everyone in the template gets a save card, monsters roll automatically\nFail — full damage, success — half or none\nSummary in chat with an Undo button for the GM\nRequires an active GM; don't use together with Midi-QOL"
+      },
+      "rolls": {
+        "title": "Epic roll requests",
+        "description": "The GM asks players for a roll — the screen dims and an epic roll card appears.",
+        "details": "d20 button on the left toolbar (GM)\nTargets are character tokens on the scene\nAbility check, save, skill or custom formula; DC, advantage/disadvantage\nPlayer clicks Roll; the GM can roll for an absent player\nEveryone sees the result and success/failure with a sound\nWorks with 3D dice\nMacro: game.rpgSuite.api.rolls.request({...})"
+      },
+      "loot": {
+        "title": "Party loot",
+        "description": "After combat the GM splits gold evenly; players roll Need / Greed / Pass for items like in WoW.",
+        "details": "Reward card after combat ends\n💰 button on the left toolbar and in the combat tracker\nDrag items, enter gold\nGold is split and added immediately\nTimed Need / Greed / Pass window per item; ties are broken with d100\nThe item goes straight to the winner"
+      },
+      "reactions": {
+        "title": "Reactions",
+        "description": "Offers a reaction at the right moment: Shield, Counterspell, Deflect Missiles, Uncanny Dodge…",
+        "details": "A hit triggers a 'Use reaction?' prompt\nShield: +5 AC until your turn\nCounterspell: interrupt an enemy spell within 60 ft\nDeflect Missiles and Uncanny Dodge reduce the next damage\n⚡ button on item sheets to configure custom reactions\nWith Auto combat: damage waits for the reaction answer\nWith the UI HUD: the reaction pip is marked automatically"
+      },
+      "dice": {
+        "title": "3D dice",
+        "description": "Lightweight 3D dice roll across the table on every roll.",
+        "details": "d2–d100 plus d3, d5, d30, Fate dice\nThe top face always matches the chat result\nEveryone sees the roller's colour; hidden rolls stay hidden\nEach player picks a colour\nThe GM sets size and time on table\nDon't use together with Dice So Nice"
+      },
+      "gmbar": {
+        "title": "GM bar",
+        "description": "A free-floating slot bar for the GM only: macros, monster abilities, tables and music at hand, independent of the selected token.",
+        "details": "Separate window: drag by the header, collapse, lock\nConfigurable grid: rows × slots per row (2 × 6 = 12 by default) and pages\nFlip pages with the header arrows or the mouse wheel\nDrop macros, items or abilities from monster sheets, activities, tables, journals, actors, scenes, playlists or sounds\nClick — use (a monster ability is used by that monster regardless of the selected token), Shift+click — open, right-click — menu\nRearrange slots by dragging, even across pages\nToolbox button on the left toolbar or Shift+G — show / hide\nStored on the GM user, same in every browser; players never see it"
+      },
+      "initiative": {
+        "title": "Initiative bar",
+        "description": "Combatant portraits in initiative order along the top of the screen.",
+        "details": "Turn order portraits at the top during combat, current one highlighted\nOptional HP bars\nToken or actor portraits\nTop offset, size and player visibility\n“Gather combat”: GM window with all scene tokens and checkboxes → “Fight”"
+      },
+      "calendar": {
+        "title": "Calendar & weather",
+        "description": "In-game date and time of day, animated weather, temperature and party location.",
+        "details": "Widget: time, part of day, date, weekday, season, moon phase\nAnimated weather and daily temperature curve\nGM controls: ±1 h, ±10 min, start/stop, long rest, +1 day\nReal-time clock with auto-pause\nGregorian (default), Harptos or custom calendars with a month editor\nParty location, auto weather, chat announcements"
+      },
+      "light": {
+        "title": "Light & torches",
+        "description": "Torches, candles, lamps and lanterns by D&D rules: token HUD button, item use, burn time.",
+        "details": "Flame button in the token HUD or Shift+L\nTorch, candle, lamp, hooded and bullseye lantern\nConsumes torches, candles or oil; remaining time is kept\nBurnt-out lights go out by themselves\nAnimated flame badge\nBest with the Vision 5e module"
+      },
+      "lockpick": {
+        "title": "Lockpicking",
+        "description": "Locked doors and chests: pick with thieves' tools or a lockpick, or break them by force.",
+        "details": "Right-click a locked door's lock icon\nThieves' tools, lockpick, break (STR or Athletics)\nPer-door DCs; Shift+right-click to test as GM\nLocked chests of «Chests, merchants & trade» too\nLockpicks may break; DC hidden from players"
+      },
+      "piles": {
+        "title": "Chests, merchants & trade",
+        "description": "Chests and loot piles on the map, merchant shops, WoW-style trading, custom currency.",
+        "details": "Tile chests: locked / closed / open, images, sounds, contents\nLoot piles: drop items on the map, token → pile\nMerchants with markup, buyback, infinite stock\nPlayer-to-player trade\nStandard, gold-only or custom currency\nRequires the GM online\nChests and bags can be locked; open with tools, picks or brute force"
+      },
+      "mannequin": {
+        "title": "Equipment mannequin",
+        "description": "MMORPG-style paper doll next to the character sheet.",
+        "details": "Paper doll with slots next to the sheet\nEquipping puts the item into its slot\nLeft-click opens, right-click unequips\nDrag & drop between slots\nRarity frames, attunement mark"
+      },
+      "whisper": {
+        "title": "GM whisper",
+        "description": "Secret messages from the GM to chosen players with sound and a glowing icon.",
+        "details": "Lips button on the left toolbar or Alt+W\nPick players, write, send\nSoft chime and glowing icon for the player\nPersistent threads, replies\nUnread markers"
+      },
+      "notebook": {
+        "title": "Sketch notebook",
+        "description": "A personal notebook for everyone and a sketch canvas for the GM.",
+        "details": "Floating book button, toolbar button or Shift+B\nPrivate notes with autosave and search\nCanvas: brushes, colours, size, background, undo\nSave to notebook and/or post to chat\nAnyone can save a sketch from chat"
+      }
+    },
+    "Reloading": "RPG-Tools by Hibear features changed — reloading…",
+    "LegacyActive": "RPG-Tools by Hibear: old standalone modules are enabled ({modules}). Disable them in Manage Modules — their features are now part of RPG-Tools by Hibear.",
+    "Migrated": "RPG-Tools by Hibear: migrated old module data (documents: {docs}, settings: {settings}).",
+    "OldVersionActive": "RPG-Tools by Hibear: the old version of the module (folder rpg-suite) is enabled. Disable and uninstall it — all settings and data have been carried over."
+  },
+  "BG3RR": {
+    "PanelTitle": "Roll Request",
+    "OpenPanel": "Epic Roll Request",
+    "Players": "Players",
+    "SelectOnline": "All online",
+    "NoPlayers": "No players in this world.",
+    "NoCharacter": "no character",
+    "Offline": "offline",
+    "RollType": "Roll type",
+    "TypeCheck": "Ability check",
+    "TypeSave": "Saving throw",
+    "TypeSkill": "Skill check",
+    "TypeCustom": "Custom roll",
+    "Ability": "Ability",
+    "Skill": "Skill",
+    "Formula": "Formula",
+    "DC": "Difficulty (DC)",
+    "DCHint": "empty — no DC",
+    "ShowDC": "Show DC to players",
+    "Mode": "Mode",
+    "Normal": "Normal",
+    "Advantage": "Advantage",
+    "Disadvantage": "Disadvantage",
+    "Reason": "Description (optional)",
+    "ReasonPlaceholder": "e.g. break the door",
+    "Send": "Send request",
+    "SelectPlayer": "Select at least one player.",
+    "Sent": "Request sent.",
+    "LabelCheck": "{ability} check",
+    "LabelSave": "{ability} saving throw",
+    "LabelSkill": "{skill} check",
+    "LabelCustom": "Roll {formula}",
+    "Requested": "is asked to roll",
+    "RollButton": "Roll",
+    "RollForPlayer": "Roll for player",
+    "Waiting": "Waiting for the roll…",
+    "Rolling": "Rolling…",
+    "Difficulty": "Difficulty",
+    "Hidden": "hidden",
+    "Success": "Success",
+    "Failure": "Failure",
+    "CritSuccess": "Critical success",
+    "CritFailure": "Critical failure",
+    "Close": "Close",
+    "Cancelled": "The GM cancelled the request.",
+    "NoActor": "The player has no assigned character — rolling without modifiers.",
+    "BadFormula": "Invalid roll formula: {formula}",
+    "AdvShort": "advantage",
+    "DisShort": "disadvantage",
+    "Settings": {
+      "AutoClose": "Roll requests · Close delay (sec)",
+      "AutoCloseHint": "How long the result stays on screen before returning to the game.",
+      "NatCrits": "Roll requests · Natural 20 and 1",
+      "NatCritsHint": "A natural 20 on a d20 always succeeds, a natural 1 always fails.",
+      "PostToChat": "Roll requests · Post roll to chat",
+      "PostToChatHint": "Keep the roll as a chat message (also needed for Dice So Nice animation).",
+      "UseSystemRoll": "Roll requests · Use dnd5e system rolls",
+      "UseSystemRollHint": "Bonuses are calculated by the dnd5e system (effects, features). If off, the module calculates the modifier itself.",
+      "SuccessSound": "Roll requests · Success sound",
+      "FailureSound": "Roll requests · Failure sound",
+      "RequestSound": "Roll requests · Request sound",
+      "Volume": "Roll requests · Module sound volume",
+      "Keybind": "Roll requests · Open the roll request panel"
+    },
+    "Abilities": {
+      "str": "Strength",
+      "dex": "Dexterity",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Wisdom",
+      "cha": "Charisma"
+    },
+    "Targets": "Characters on the scene",
+    "SelectControlled": "Selected on map",
+    "SelectPCs": "All player characters",
+    "SelectNone": "Clear",
+    "NoTokens": "No tokens with actors on this scene.",
+    "NoScene": "No scene is open.",
+    "NpcGroup": "Other tokens (NPC)",
+    "GmRolls": "GM rolls",
+    "SelectTarget": "Check at least one character.",
+    "NoControlled": "No tokens are selected on the map.",
+    "PickSkill": "Skill",
+    "PickAbility": "Ability",
+    "PickFormula": "Roll formula"
+  },
+  "RP": {
+    "Title": "Reaction!",
+    "Question": "{name}: use a reaction?",
+    "Decline": "Don't use",
+    "TimeLeft": "Time left:",
+    "Seconds": "s",
+    "AC": "AC",
+    "Waiting": "Waiting for other participants' reactions…",
+    "ContextAttack": "<b>{attacker}</b> attacks <b>{target}</b> ({item}): <b>{total}</b> vs AC {ac} — hit.",
+    "ContextCrit": "<b>{attacker}</b> scores a <b>critical hit</b> on <b>{target}</b> ({item})!",
+    "ContextSpell": "<b>{caster}</b> casts «<b>{spell}</b>» (level {level}).",
+    "Used": "<b>{name}</b> uses a reaction: <i>{reaction}</i>.",
+    "UseFailed": "Could not use «{name}» (no slots/uses or cancelled).",
+    "SpellCancelled": "«<b>{spell}</b>» is interrupted: <b>{actor}</b> uses <i>{reaction}</i>.",
+    "ReductionFlavor": "damage reduction",
+    "DamageModApplied": "{name}: damage modified by «{source}».",
+    "Effect": {
+      "acBonus": "+{value} AC until the start of your turn",
+      "reduceDamage": "Damage from this attack is reduced by {value}",
+      "halveDamage": "Damage from this attack is halved",
+      "cancel": "Interrupts the spell",
+      "none": "Reminder — effect is applied manually"
+    },
+    "EffectName": {
+      "none": "None (reminder only)",
+      "acBonus": "AC bonus",
+      "reduceDamage": "Reduce damage by roll",
+      "halveDamage": "Halve damage",
+      "cancel": "Interrupt spell"
+    },
+    "Outcome": {
+      "nowMiss": "The attack ({total}) now <b>misses</b> — AC {ac}!",
+      "stillHit": "The attack ({total}) still hits (AC {ac}).",
+      "critStillHits": "A critical hit still hits, but the AC bonus lasts until the start of the turn.",
+      "acBonus": "+{value} AC until the start of the turn.",
+      "reduce": "The next damage from this attack is reduced by <b>{value}</b>.",
+      "halve": "The next damage from this attack is <b>halved</b>.",
+      "cancel": "«{spell}» is interrupted.",
+      "manual": "The GM applies the effect manually."
+    },
+    "Trigger": {
+      "attacked": "Character is hit by an attack",
+      "spellCast": "Nearby enemy casts a spell",
+      "disabled": "Never prompt"
+    },
+    "AttackType": {
+      "mwak": "Melee weapon",
+      "rwak": "Ranged weapon",
+      "msak": "Melee spell",
+      "rsak": "Ranged spell"
+    },
+    "Config": {
+      "title": "Reaction setup",
+      "short": "Reaction",
+      "hint": "“Auto” recognises Shield, Counterspell, Deflect Missiles/Attacks, Uncanny Dodge and Defensive Duelist; any other item with a Reaction activation is offered as a reminder when hit. Other fields apply when a specific trigger is chosen.",
+      "trigger": "When to prompt",
+      "effect": "Effect",
+      "value": "Value / formula",
+      "attackTypes": "Attack types (empty = any)",
+      "range": "Range, ft (0 = unlimited)",
+      "save": "Save",
+      "saved": "Reaction setup for «{name}» saved.",
+      "autoPreset": "Auto: {trigger} → {effect}",
+      "autoGeneric": "Auto: reminder when hit",
+      "autoNone": "Auto: not a reaction"
+    },
+    "Settings": {
+      "enabled": {
+        "Name": "Reactions · Enable reaction prompts",
+        "Hint": "Ask players whether they want to use a reaction."
+      },
+      "timeout": {
+        "Name": "Reactions · Answer time (s)",
+        "Hint": "The prompt closes itself (answer “no”) after this many seconds."
+      },
+      "useItem": {
+        "Name": "Reactions · Spend reaction resources",
+        "Hint": "On accept, use the item/spell: consume a slot or uses and post its chat card."
+      },
+      "trackReactions": {
+        "Name": "Reactions · One reaction per round",
+        "Hint": "In combat, a used reaction is unavailable until the start of the character's turn."
+      },
+      "genericReactions": {
+        "Name": "Reactions · Remind about other reactions",
+        "Hint": "Unknown items with a Reaction activation are offered as reminders when the character is hit."
+      },
+      "promptNPCs": {
+        "Name": "Reactions · Prompt the GM for NPC reactions",
+        "Hint": "If disabled, only player characters are prompted."
+      },
+      "hostileOnly": {
+        "Name": "Reactions · Counterspell only against enemies",
+        "Hint": "React to spells only from tokens of opposite disposition (friendly ↔ hostile)."
+      },
+      "onlyInCombat": {
+        "Name": "Reactions · Combat only",
+        "Hint": "Only prompt for reactions while a combat is started."
+      },
+      "playSound": {
+        "Name": "Reactions · Sound on reaction prompt",
+        "Hint": "Play a sound when a reaction prompt appears."
+      }
+    }
+  },
+  "S3D": {
+    "Menu": {
+      "Name": "3D dice · Dice color",
+      "Label": "Choose color",
+      "Hint": "Color of your 3D dice. Other players will see your rolls in this color."
+    },
+    "Config": {
+      "Title": "My dice color",
+      "Palette": "Palette",
+      "Custom": "Custom color",
+      "Save": "Save",
+      "Reset": "Player color",
+      "Test": "Test roll"
+    },
+    "Settings": {
+      "Size": "3D dice · Dice size",
+      "SizeHint": "How large the dice appear on the table.",
+      "SizeSmall": "Small",
+      "SizeMedium": "Medium",
+      "SizeLarge": "Large",
+      "Duration": "3D dice · Time on table (sec)",
+      "DurationHint": "How many seconds dice stay on the table after stopping before fading out.",
+      "Hide": "3D dice · Hide result until dice stop",
+      "HideHint": "The roll chat message appears only after the dice have stopped."
+    }
+  },
+  "GMWHISPER": {
+    "ControlGM": "Whisper",
+    "ControlPlayer": "GM Whispers",
+    "ComposerTitle": "Whisper",
+    "OnlinePlayers": "Players online",
+    "SelectAll": "All",
+    "NoPlayersOnline": "No players online",
+    "Placeholder": "Whisper something… (Enter to send, Shift+Enter for new line)",
+    "ReplyPlaceholder": "Whisper back…",
+    "Send": "Send whisper",
+    "Threads": "Conversations",
+    "NoPlayers": "No players in this world",
+    "ChatTitleGM": "Whisper — {name}",
+    "ChatTitlePlayer": "GM Whispers",
+    "You": "You",
+    "GM": "Game Master",
+    "Empty": "It's quiet here…",
+    "AlsoTo": "also heard by: {names}",
+    "Online": "online",
+    "Offline": "offline",
+    "Clear": "Clear",
+    "ClearTitle": "Clear conversation",
+    "ClearConfirm": "Delete the entire whisper history with {name}?",
+    "NotifyPlayer": "The GM whispers to you…",
+    "NotifyGMOne": "{name} whispers back",
+    "NotifyGMMany": "Player replies: {n}",
+    "NotifyHint": "Left click — open, right click — dismiss",
+    "NoRecipients": "Select at least one player",
+    "EmptyText": "Enter whisper text",
+    "Sent": "Whisper sent: {names}",
+    "SendError": "Failed to send whisper (see F12 console)",
+    "Keybinding": "GM whisper · Open whisper",
+    "Settings": {
+      "SoundPath": "GM whisper · Custom notification sound",
+      "SoundPathHint": "Path to an audio file. If empty, a built-in soft chime plays.",
+      "Volume": "GM whisper · Notification volume",
+      "VolumeHint": "0 mutes the sound.",
+      "Shake": "GM whisper · Shake the icon",
+      "ShakeHint": "The whisper icon periodically wiggles like a phone notification.",
+      "MaxHistory": "GM whisper · History limit",
+      "MaxHistoryHint": "How many recent messages to keep per player conversation (0 = unlimited)."
+    }
+  },
+  "BG3IB": {
+    "Round": "Round {round}",
+    "NotStarted": "Preparing for combat",
+    "RollInitiative": "Roll Initiative",
+    "NoInitiative": "Initiative not rolled",
+    "StartCombat": "Start Combat",
+    "RollNPC": "Roll NPCs",
+    "RollAll": "Roll All",
+    "PrevTurn": "Previous Turn",
+    "NextTurn": "Next Turn",
+    "EndTurn": "End Turn",
+    "EndCombat": "End Combat",
+    "Defeated": "Defeated",
+    "Settings": {
+      "ShowToPlayers": {
+        "Name": "Initiative bar · Show to players",
+        "Hint": "If disabled, only the GM sees the initiative bar."
+      },
+      "ShowHP": {
+        "Name": "Initiative bar · Health bars",
+        "Hint": "Show an HP bar under portraits. Players only see HP of their own characters."
+      },
+      "ImageSource": {
+        "Name": "Initiative bar · Portrait image",
+        "Hint": "Use the actor portrait or the token image on cards.",
+        "Actor": "Actor portrait",
+        "Token": "Token image"
+      },
+      "TopOffset": {
+        "Name": "Initiative bar · Top offset (px)",
+        "Hint": "Move the bar down if it overlaps other UI."
+      },
+      "PortraitSize": {
+        "Name": "Initiative bar · Portrait size (px)",
+        "Hint": "Width of a single card in the bar."
+      },
+      "GatherButton": {
+        "Name": "Initiative bar · “Gather combat” button",
+        "Hint": "While there is no combat, the GM sees a “Gather combat” button at the top: scene tokens with checkboxes → “Fight”."
+      }
+    },
+    "Gather": "Gather combat",
+    "GatherHint": "Open the GM window: scene tokens with checkboxes and a “Fight” button.",
+    "AddFighters": "Add combatants"
+  },
+  "HLP": {
+    "Title": "Lockpicking Tool",
+    "Warn": {
+      "NoToken": "Select your character's token to pick locks.",
+      "NotLocked": "Nothing is locked here.",
+      "TooFar": "Too far away. Move closer (within {dist} {units}).",
+      "NoGM": "No active GM — the result cannot be applied.",
+      "NothingNear": "No locked doors or chests nearby."
+    },
+    "Btn": {
+      "Tools": "Pick (Thieves' Tools)",
+      "Lockpick": "Pick (Lockpick)",
+      "BreakStr": "Break (Strength)",
+      "BreakAth": "Break (Athletics)",
+      "Cancel": "Cancel"
+    },
+    "Dialog": {
+      "Title": "Lockpicking Tool",
+      "Door": "Locked door",
+      "Who": "Acting: <strong>{name}</strong>",
+      "DC": "Pick DC: {pick} · Break DC: {brk}",
+      "NoTools": "No thieves' tools or lockpick — you can only break it.",
+      "Unpickable": "This lock cannot be picked.",
+      "Unbreakable": "This cannot be broken."
+    },
+    "Method": {
+      "tools": "Thieves' Tools",
+      "lockpick": "Lockpick (Dexterity)",
+      "str": "Strength",
+      "ath": "Strength (Athletics)"
+    },
+    "Chat": {
+      "Picked": "{name} picks the lock: {target}",
+      "BrokeDoor": "{name} smashes through: {target}!",
+      "BrokeOpen": "{name} forces open: {target}!",
+      "PickFail": "{name} fails to pick the lock: {target}",
+      "BreakFail": "{name} fails to break: {target}",
+      "DC": "DC",
+      "PickBroke": "The lockpick broke!",
+      "GMInfo": "Lockpicking — {name}: {total} vs DC {dc}"
+    },
+    "Config": {
+      "Legend": "Lock",
+      "PickDC": "Pick DC",
+      "BreakDC": "Break DC",
+      "NoPick": "Cannot be picked",
+      "NoBreak": "Cannot be broken",
+      "Hint": "Leave empty to use the module defaults."
+    },
+    "Keybind": {
+      "Name": "Lockpicking · Pick nearest lock",
+      "Hint": "Opens the lockpicking window for the nearest locked door or chest next to your token."
+    },
+    "Settings": {
+      "maxDistance": {
+        "Name": "Lockpicking · Interaction distance",
+        "Hint": "How close you must be (scene units, usually feet). 5 = adjacent square."
+      },
+      "doorPickDC": {
+        "Name": "Lockpicking · Door pick DC",
+        "Hint": "Default when the wall has no DC set."
+      },
+      "doorBreakDC": {
+        "Name": "Lockpicking · Door break DC",
+        "Hint": "Default when the wall has no DC set."
+      },
+      "chestPickDC": {
+        "Name": "Lockpicking · Chest pick DC",
+        "Hint": "For locked Item Piles containers."
+      },
+      "chestBreakDC": {
+        "Name": "Lockpicking · Chest break DC",
+        "Hint": "For locked Item Piles containers."
+      },
+      "toolNames": {
+        "Name": "Lockpicking · Thieves' tools names",
+        "Hint": "Comma separated. Tools with base item 'Thieves' Tools' are detected automatically."
+      },
+      "lockpickNames": {
+        "Name": "Lockpicking · Lockpick names",
+        "Hint": "Comma separated. Lockpick = Dexterity check without tool proficiency."
+      },
+      "allowBreak": {
+        "Name": "Lockpicking · Allow breaking",
+        "Hint": "Show the Break option (Strength / Athletics)."
+      },
+      "breakDoorAction": {
+        "Name": "Lockpicking · Broken door",
+        "Hint": "What happens to a door on a successful break.",
+        "delete": "Door wall is deleted",
+        "open": "Door swings open"
+      },
+      "openAfterPick": {
+        "Name": "Lockpicking · Open door after picking",
+        "Hint": "If off, the door is only unlocked."
+      },
+      "pickBreaks": {
+        "Name": "Lockpicking · Lockpick breakage",
+        "Hint": "When a lockpick is consumed on a failed attempt.",
+        "never": "Never",
+        "nat1": "On a natural 1",
+        "fail": "On any failure"
+      },
+      "showDC": {
+        "Name": "Lockpicking · Show DC to players",
+        "Hint": "If off, only the GM sees the DC (whispered)."
+      }
+    }
+  },
+  "mannequin-tool": {
+    "title": "Equipment: {name}",
+    "slots": {
+      "head": "Head",
+      "neck": "Neck",
+      "shoulders": "Shoulders",
+      "back": "Back (cloak)",
+      "chest": "Chest (armor)",
+      "wrists": "Wrists",
+      "hands": "Hands",
+      "waist": "Waist",
+      "legs": "Legs",
+      "feet": "Feet",
+      "ring1": "Ring I",
+      "ring2": "Ring II",
+      "mainhand": "Main hand",
+      "offhand": "Off hand / shield",
+      "ranged": "Ranged",
+      "trinket1": "Relic I",
+      "trinket2": "Relic II",
+      "trinket3": "Relic III",
+      "trinket4": "Relic IV"
+    },
+    "ui": {
+      "weapons": "Weapons",
+      "relics": "Relics & accessories",
+      "loose": "Equipped without slot",
+      "ac": "Armor Class",
+      "hp": "Hit Points",
+      "attune": "Attunement",
+      "toggle": "Mannequin Tool",
+      "hint": "LMB — open • RMB — unequip • drag an item onto a slot"
+    },
+    "notify": {
+      "removed": "Unequipped: {name}",
+      "noPermission": "You don't have permission to change this character's equipment.",
+      "notEquippable": "\"{name}\" can't be equipped.",
+      "wrongSlot": "\"{name}\" doesn't fit the \"{slot}\" slot.",
+      "noFreeSlot": "No free slot for \"{name}\"."
+    },
+    "settings": {
+      "autoOpen": {
+        "name": "Mannequin · Open with the character sheet",
+        "hint": "The doll opens automatically with the sheet. Otherwise use the button in the sheet header."
+      },
+      "followSheet": {
+        "name": "Mannequin · Stick to the sheet",
+        "hint": "The doll moves together with the character sheet."
+      },
+      "side": {
+        "name": "Mannequin · Side",
+        "hint": "Which side of the sheet the doll appears on.",
+        "left": "Left",
+        "right": "Right"
+      },
+      "portraitSource": {
+        "name": "Mannequin · Image",
+        "hint": "What to show in the middle of the doll.",
+        "actor": "Actor portrait",
+        "token": "Token image"
+      },
+      "richTooltips": {
+        "name": "Mannequin · Rich tooltips",
+        "hint": "Show the dnd5e item card on hover instead of just the name."
+      },
+      "notify": {
+        "name": "Mannequin · Notify about unequipped items",
+        "hint": "Show a message when a new item pushes the old one out."
+      },
+      "autoAssign": {
+        "name": "Mannequin · Auto-assign slots",
+        "hint": "When an item is equipped on the sheet it goes into a matching slot."
+      },
+      "replaceOccupied": {
+        "name": "Mannequin · Replace item in an occupied slot",
+        "hint": "MMORPG-style: the old item is unequipped. If off, the new item goes to \"Equipped without slot\"."
+      },
+      "showNpc": {
+        "name": "Mannequin · Show doll for NPCs",
+        "hint": "By default only player characters get a doll."
+      }
+    }
+  },
+  "SKETCHNB": {
+    "Notebook": {
+      "Title": "Personal Notebook",
+      "Open": "Open personal notebook",
+      "Heading": "My notes",
+      "NewNote": "New note",
+      "NewSketch": "Sketch a note",
+      "Search": "Search notes…",
+      "Untitled": "Untitled",
+      "TitlePlaceholder": "Title",
+      "ContentPlaceholder": "Write here…",
+      "CaptionPlaceholder": "Comment on the drawing…",
+      "Empty": "Pick a note on the left or create a new one.",
+      "NoNotes": "Nothing here yet",
+      "Created": "Created",
+      "Updated": "Updated",
+      "Delete": "Delete",
+      "DeleteTitle": "Delete note?",
+      "DeleteContent": "The note “{title}” will be permanently deleted.",
+      "SendToChat": "Send to chat",
+      "EditSketch": "Keep drawing",
+      "Count": "Notes: {count}"
+    },
+    "Sketch": {
+      "Title": "Sketch a note",
+      "Brushes": "Brushes",
+      "Color": "Color",
+      "CustomColor": "Custom color",
+      "Size": "Size",
+      "Opacity": "Opacity",
+      "Background": "Background",
+      "Undo": "Undo",
+      "Redo": "Redo",
+      "Clear": "Clear",
+      "TitlePlaceholder": "Sketch title",
+      "CaptionPlaceholder": "Caption (optional)",
+      "Save": "Save to notebook",
+      "SaveAndChat": "Save and send to chat",
+      "ChatOnly": "Chat only",
+      "DefaultTitle": "Sketch {date}",
+      "DiscardTitle": "Close without saving?",
+      "DiscardContent": "Your drawing is not saved and will be lost.",
+      "Bg": {
+        "parchment": "Parchment",
+        "white": "White",
+        "dark": "Dark",
+        "transparent": "Transparent"
+      }
+    },
+    "Brush": {
+      "brush": "Brush",
+      "marker": "Marker",
+      "pencil": "Pencil",
+      "calligraphy": "Pen nib",
+      "spray": "Airbrush",
+      "eraser": "Eraser"
+    },
+    "Chat": {
+      "SaveToNotebook": "To my notebook"
+    },
+    "Notify": {
+      "Saved": "Sketch saved to the notebook.",
+      "SavedAndSent": "Sketch saved and sent to chat.",
+      "Sent": "Sketch sent to chat.",
+      "SavedFromChat": "Drawing added to your notebook.",
+      "Error": "Could not save the sketch. See console (F12).",
+      "UploadFallback": "No file upload permission — the image was stored inside user data."
+    },
+    "Settings": {
+      "FloatingButton": "Notebook · Floating notebook button",
+      "FloatingButtonHint": "Show a draggable on-screen button that opens the notebook.",
+      "PlayersCanSketch": "Notebook · Players can sketch too",
+      "PlayersCanSketchHint": "By default only the GM has the “Sketch a note” tool.",
+      "Keybinding": "Notebook · Toggle personal notebook"
+    }
+  }
+}

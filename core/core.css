@@ -1,0 +1,149 @@
+/* ============ RPG Suite — центр управления ============ */
+.rpg-suite-manager {
+  --rs-gold: #c9a35b;
+  --rs-gold-light: #f1d9a0;
+  --rs-gold-dim: rgba(201, 163, 91, .35);
+}
+.rpg-suite-manager .window-content { padding: 10px; overflow: hidden; }
+.rpg-suite-manager .rs-body { display: flex; flex-direction: column; gap: 8px; height: 100%; min-height: 0; }
+.rpg-suite-manager .rs-hint { margin: 0; opacity: .8; font-size: 12px; }
+.rpg-suite-manager .rs-columns { flex: 1; display: flex; gap: 10px; min-height: 0; }
+
+/* --- список функций --- */
+.rpg-suite-manager .rs-nav { flex: 0 0 270px; overflow-y: auto; }
+.rpg-suite-manager .rs-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.rpg-suite-manager .rs-nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer;
+  border: 1px solid var(--rs-gold-dim); border-radius: 8px; background: rgba(0, 0, 0, .18);
+  transition: background .15s, border-color .15s;
+}
+.rpg-suite-manager .rs-nav-item:hover { border-color: rgba(201, 163, 91, .8); }
+.rpg-suite-manager .rs-nav-item.selected { border-color: var(--rs-gold); background: rgba(201, 163, 91, .16); box-shadow: inset 3px 0 0 var(--rs-gold); }
+.rpg-suite-manager .rs-nav-item:not(.checked) .rs-icon { opacity: .45; }
+.rpg-suite-manager .rs-nav-text { flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.rpg-suite-manager .rs-nav-text .rs-title { font-weight: bold; font-size: 13px; line-height: 1.2; }
+.rpg-suite-manager .rs-dot { flex: 0 0 8px; height: 8px; border-radius: 50%; background: #777; }
+.rpg-suite-manager .rs-dot.on { background: #46c35f; }
+.rpg-suite-manager .rs-dot.warn { background: #e0a030; }
+.rpg-suite-manager .rs-dot.pending { background: #4b9be0; }
+
+.rpg-suite-manager .rs-icon {
+  flex: 0 0 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: var(--rs-gold); background: rgba(0, 0, 0, .35); border: 1px solid rgba(201, 163, 91, .5);
+}
+.rpg-suite-manager .rs-icon.big { flex-basis: 52px; height: 52px; font-size: 22px; }
+
+/* переключатель */
+.rpg-suite-manager .rs-switch {
+  flex: 0 0 40px; width: 40px; height: 22px; min-height: 0; padding: 0; margin: 0; border-radius: 11px; position: relative;
+  background: #3a332b; border: 1px solid #6e5428; transition: background .15s; cursor: pointer; box-shadow: none;
+}
+.rpg-suite-manager .rs-switch.static { cursor: default; opacity: .7; }
+.rpg-suite-manager .rs-switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #9b8763; transition: transform .15s, background .15s;
+}
+.rpg-suite-manager .rs-nav-item.checked .rs-switch { background: #6e5428; }
+.rpg-suite-manager .rs-nav-item.checked .rs-switch::after { transform: translateX(18px); background: var(--rs-gold-light); }
+
+/* --- панель выбранной функции --- */
+.rpg-suite-manager .rs-pane {
+  flex: 1; overflow-y: auto; padding: 4px 12px 12px; min-width: 0;
+  border: 1px solid var(--rs-gold-dim); border-radius: 8px; background: rgba(0, 0, 0, .12);
+}
+.rpg-suite-manager .rs-pane-head { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.rpg-suite-manager .rs-pane-head h2 { margin: 0; border: none; font-size: 20px; }
+.rpg-suite-manager .rs-statuses { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 2px; }
+.rpg-suite-manager .rs-status { font-size: 12px; }
+.rpg-suite-manager .rs-status.on { color: #46c35f; }
+.rpg-suite-manager .rs-status.off { opacity: .6; }
+.rpg-suite-manager .rs-status.warn { color: #e0a030; }
+.rpg-suite-manager .rs-status.pending { color: #4b9be0; }
+.rpg-suite-manager .rs-status i { font-size: 9px; vertical-align: middle; }
+.rpg-suite-manager .rs-status.warn i, .rpg-suite-manager .rs-status.pending i { font-size: 11px; }
+.rpg-suite-manager .rs-desc { font-size: 14px; margin: 4px 0 8px; }
+.rpg-suite-manager .rs-pane h3 { font-size: 14px; margin: 12px 0 6px; border-bottom: 1px solid var(--rs-gold-dim); padding-bottom: 3px; }
+.rpg-suite-manager .rs-pane h3 i { color: var(--rs-gold); margin-right: 4px; }
+.rpg-suite-manager .rs-pane h4 { font-size: 12px; margin: 10px 0 4px; opacity: .8; text-transform: uppercase; letter-spacing: .04em; border: none; }
+.rpg-suite-manager .rs-details { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.45; }
+.rpg-suite-manager .rs-muted { opacity: .7; font-style: italic; font-size: 13px; }
+
+.rpg-suite-manager .rs-menus { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.rpg-suite-manager .rs-menus button { flex: 0 0 auto; width: auto; }
+.rpg-suite-manager .rs-fields { display: flex; flex-direction: column; gap: 8px; }
+.rpg-suite-manager .rs-field {
+  display: grid; grid-template-columns: 1fr minmax(160px, 45%); gap: 2px 10px; align-items: center;
+  padding: 6px 8px; border-radius: 6px; background: rgba(0, 0, 0, .12);
+}
+.rpg-suite-manager .rs-field label { font-weight: bold; font-size: 13px; }
+.rpg-suite-manager .rs-field .rs-input { display: flex; justify-content: flex-end; }
+.rpg-suite-manager .rs-field.boolean .rs-input input { margin: 0; }
+.rpg-suite-manager .rs-field .hint { grid-column: 1 / -1; margin: 0; font-size: 11px; opacity: .75; }
+.rpg-suite-manager .rs-range { display: flex; align-items: center; gap: 6px; width: 100%; }
+.rpg-suite-manager .rs-range input { flex: 1; }
+.rpg-suite-manager .rs-range output { flex: 0 0 36px; text-align: right; font-family: monospace; }
+.rpg-suite-manager .rs-file { display: flex; gap: 4px; width: 100%; }
+.rpg-suite-manager .rs-file input { flex: 1; }
+.rpg-suite-manager .rs-file button { flex: 0 0 30px; width: 30px; }
+.rpg-suite-manager .rs-field select, .rpg-suite-manager .rs-field input[type="text"], .rpg-suite-manager .rs-field input[type="number"] { width: 100%; }
+
+/* --- нижняя строка --- */
+.rpg-suite-manager .rs-footer { display: flex; align-items: center; gap: 8px; }
+.rpg-suite-manager .rs-footer button { flex: 0 0 auto; width: auto; }
+.rpg-suite-manager .rs-footer .rs-note { flex: 1; font-size: 11px; opacity: .65; }
+.rpg-suite-manager .rs-footer .rs-save { min-width: 140px; }
+
+/* кнопка в сайдбаре «Настройки» */
+button.rpg-suite-open { width: 100%; margin-bottom: 6px; }
+
+/* подпись автора внизу окна */
+.rpg-suite-manager .rs-author { text-align: right; font-size: 10px; opacity: .55; letter-spacing: .03em; margin-top: -2px; }
+
+/* ---------- «Как это работает?»: кнопки в центре управления ---------- */
+.rpg-suite-manager .rs-help-btn {
+  flex: 0 0 24px; width: 24px; height: 24px; min-height: 0; padding: 0; margin: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1;
+  background: rgba(0, 0, 0, .35); border: 1px solid var(--rs-gold-dim); color: var(--rs-gold); box-shadow: none; cursor: pointer;
+}
+.rpg-suite-manager .rs-help-btn:hover { border-color: var(--rs-gold); color: var(--rs-gold-light); box-shadow: 0 0 8px rgba(201, 163, 91, .5); }
+.rpg-suite-manager .rs-nav { flex-basis: 300px; }
+.rpg-suite-manager .rs-pane-head { flex-wrap: wrap; }
+.rpg-suite-manager .rs-pane-title { flex: 1; min-width: 180px; }
+.rpg-suite-manager .rs-pane-help { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
+.rpg-suite-manager .rs-help-main {
+  width: auto; white-space: nowrap; font-size: 12px; padding: 4px 10px; min-height: 0; line-height: 1.5;
+  border: 1px solid var(--rs-gold); background: rgba(201, 163, 91, .12); color: var(--rs-gold-light);
+}
+.rpg-suite-manager .rs-help-main:hover { background: rgba(201, 163, 91, .25); box-shadow: 0 0 10px rgba(201, 163, 91, .45); }
+.rpg-suite-manager .rs-help-main.discord { border-color: #5865f2; background: rgba(88, 101, 242, .15); }
+.rpg-suite-manager .rs-help-main.discord:hover { background: rgba(88, 101, 242, .3); box-shadow: 0 0 10px rgba(88, 101, 242, .5); }
+.rpg-suite-manager .rs-status.info { color: #7fb4e6; }
+
+/* ---------- Окно справки ---------- */
+.rpg-suite-help .window-content { padding: 0; overflow: hidden; }
+.rpg-suite-help .rs-help { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.rpg-suite-help .rs-help-head {
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  border-bottom: 1px solid rgba(201, 163, 91, .35); background: rgba(0, 0, 0, .2);
+}
+.rpg-suite-help .rs-icon {
+  flex: 0 0 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #c9a35b; background: rgba(0, 0, 0, .35); border: 1px solid rgba(201, 163, 91, .5);
+}
+.rpg-suite-help .rs-help-head h2 { margin: 0; border: none; font-size: 20px; color: #f1d9a0; }
+.rpg-suite-help .rs-help-sub { margin: 2px 0 0; opacity: .8; font-size: 13px; }
+.rpg-suite-help .rs-help-body { flex: 1; overflow-y: auto; padding: 8px 18px 16px; font-size: 14px; line-height: 1.5; }
+.rpg-suite-help .rs-help-body h3 {
+  margin: 14px 0 6px; padding-bottom: 3px; font-size: 15px; color: #f1d9a0;
+  border-bottom: 1px solid rgba(201, 163, 91, .35);
+}
+.rpg-suite-help .rs-help-body ul, .rpg-suite-help .rs-help-body ol { margin: 4px 0; padding-left: 22px; }
+.rpg-suite-help .rs-help-body li { margin: 3px 0; }
+.rpg-suite-help .rs-help-body kbd {
+  display: inline-block; padding: 0 6px; border: 1px solid #6e5428; border-bottom-width: 2px; border-radius: 4px;
+  background: rgba(0, 0, 0, .4); color: #f1d9a0; font-size: 12px; font-family: inherit; line-height: 18px;
+}
+.rpg-suite-help .rs-help-body code { padding: 0 4px; border-radius: 3px; background: rgba(0, 0, 0, .4); color: #f1d9a0; font-size: 12px; }
+.rpg-suite-help .rs-help-body a { color: #f1d9a0; text-decoration: underline; }
+.rpg-suite-help .rs-help-foot { padding: 8px 16px; border-top: 1px solid rgba(201, 163, 91, .35); display: flex; justify-content: flex-end; }
+.rpg-suite-help .rs-help-foot button { width: auto; padding: 4px 12px; }

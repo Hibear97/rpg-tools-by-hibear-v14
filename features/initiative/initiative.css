@@ -1,0 +1,322 @@
+/* ===== Initiative Bar Tool ===== */
+
+#initiative-bar-tool {
+  --bg3ib-size: 64px;
+  --bg3ib-top: 12px;
+  --bg3ib-gold: #d9b45a;
+  --bg3ib-gold-light: #f6e0a0;
+  --bg3ib-dark: rgba(14, 11, 9, 0.88);
+  --bg3ib-friendly: #4f9d6b;
+  --bg3ib-neutral: #b8a26a;
+  --bg3ib-hostile: #b0403a;
+  --bg3ib-secret: #7a5bb5;
+
+  position: fixed;
+  top: var(--bg3ib-top);
+  left: 50%;
+  transform: translate(-50%, -20px);
+  z-index: 60;
+  max-width: min(80vw, 1200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-family: var(--font-primary, "Signika"), sans-serif;
+}
+
+#initiative-bar-tool.bg3ib-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+#initiative-bar-tool.bg3ib-visible > * {
+  pointer-events: auto;
+}
+
+/* ----- Заголовок раунда ----- */
+.bg3ib-header {
+  padding: 2px 18px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bg3ib-gold-light);
+  text-shadow: 0 0 6px #000, 0 0 2px #000;
+  background: linear-gradient(90deg, transparent, var(--bg3ib-dark) 20%, var(--bg3ib-dark) 80%, transparent);
+}
+
+/* ----- Лента портретов ----- */
+.bg3ib-track {
+  display: flex;
+  gap: 6px;
+  padding: 8px 14px 10px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: thin;
+  background: linear-gradient(180deg, rgba(10, 8, 6, 0.75), rgba(10, 8, 6, 0.35));
+  border-top: 1px solid rgba(201, 163, 91, 0.4);
+  border-bottom: 1px solid rgba(201, 163, 91, 0.4);
+  border-radius: 6px;
+}
+
+/* ----- Карточка ----- */
+.bg3ib-card {
+  --accent: var(--bg3ib-neutral);
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--bg3ib-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.bg3ib-card.friendly { --accent: var(--bg3ib-friendly); }
+.bg3ib-card.hostile  { --accent: var(--bg3ib-hostile); }
+.bg3ib-card.secret   { --accent: var(--bg3ib-secret); }
+
+.bg3ib-card:hover { transform: translateY(2px); }
+
+.bg3ib-frame {
+  position: relative;
+  width: var(--bg3ib-size);
+  height: calc(var(--bg3ib-size) * 1.3);
+  border: 2px solid var(--accent);
+  border-radius: 4px 4px 10px 10px;
+  overflow: hidden;
+  background: #1a1410;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7), inset 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.bg3ib-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border: none;
+  display: block;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Активный ход */
+.bg3ib-card.active {
+  transform: translateY(4px) scale(1.12);
+  z-index: 2;
+}
+.bg3ib-card.active .bg3ib-frame {
+  border-color: var(--bg3ib-gold);
+  box-shadow: 0 0 12px 2px rgba(201, 163, 91, 0.75), 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.bg3ib-card.active::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--bg3ib-gold);
+  filter: drop-shadow(0 0 3px rgba(201, 163, 91, 0.9));
+}
+
+/* Повержен */
+.bg3ib-card.defeated .bg3ib-portrait {
+  filter: grayscale(1) brightness(0.45);
+}
+.bg3ib-skull {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--bg3ib-size) * 0.4);
+  color: #c33;
+  text-shadow: 0 0 6px #000;
+}
+
+/* Скрыт от игроков (видит только ГМ) */
+.bg3ib-card.gm-hidden { opacity: 0.55; }
+
+/* ----- d20 вместо портрета ----- */
+.bg3ib-roll {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: radial-gradient(circle, rgba(60, 40, 15, 0.85) 0%, rgba(10, 8, 6, 0.95) 75%);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.bg3ib-d20 {
+  width: 72%;
+  height: auto;
+  transition: transform 0.25s ease;
+  filter: drop-shadow(0 0 4px rgba(201, 163, 91, 0.8));
+}
+.bg3ib-d20 .d20-body  { fill: #2b1d0e; stroke: var(--bg3ib-gold); stroke-width: 4; stroke-linejoin: round; }
+.bg3ib-d20 .d20-face  { fill: #4a3214; stroke: var(--bg3ib-gold); stroke-width: 3; stroke-linejoin: round; }
+.bg3ib-d20 .d20-edges { fill: none; stroke: var(--bg3ib-gold); stroke-width: 2.5; opacity: 0.85; }
+.bg3ib-d20 text {
+  fill: var(--bg3ib-gold-light);
+  font-size: 22px;
+  font-weight: bold;
+  text-anchor: middle;
+  font-family: serif;
+}
+
+/* Наведение — портрет заменяется кубиком */
+.bg3ib-card.can-roll:hover .bg3ib-portrait { opacity: 0; transform: scale(0.9); }
+.bg3ib-card.can-roll:hover .bg3ib-roll     { opacity: 1; }
+.bg3ib-card.can-roll:hover .bg3ib-d20      { transform: rotate(-12deg) scale(1.05); }
+.bg3ib-roll:active .bg3ib-d20              { transform: scale(0.9); }
+
+/* Подсказка: свой персонаж ещё не бросил */
+.bg3ib-card.can-roll .bg3ib-frame {
+  animation: bg3ib-pulse 1.6s ease-in-out infinite;
+}
+@keyframes bg3ib-pulse {
+  0%, 100% { box-shadow: 0 0 4px 0 rgba(201, 163, 91, 0.3), inset 0 0 8px rgba(0, 0, 0, 0.8); }
+  50%      { box-shadow: 0 0 12px 3px rgba(201, 163, 91, 0.8), inset 0 0 8px rgba(0, 0, 0, 0.8); }
+}
+
+/* Бросок в процессе — кубик крутится */
+.bg3ib-card.rolling .bg3ib-portrait { opacity: 0; }
+.bg3ib-card.rolling .bg3ib-roll     { opacity: 1; cursor: wait; }
+.bg3ib-card.rolling .bg3ib-d20      { animation: bg3ib-spin 0.6s linear infinite; }
+@keyframes bg3ib-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ----- HP ----- */
+.bg3ib-hp {
+  position: relative;
+  width: 92%;
+  height: 5px;
+  margin-top: 3px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bg3ib-hp-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #d24a3f, #8f1f1a);
+  transition: width 0.3s ease;
+}
+.bg3ib-hp-temp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(90, 160, 230, 0.75);
+}
+
+/* ----- Значение инициативы ----- */
+.bg3ib-init {
+  min-width: 26px;
+  margin-top: -9px;
+  padding: 0 6px;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+  color: var(--bg3ib-gold-light);
+  background: var(--bg3ib-dark);
+  border: 1px solid var(--bg3ib-gold);
+  border-radius: 9px;
+  text-shadow: 0 0 3px #000;
+}
+.bg3ib-hp + .bg3ib-init { margin-top: 2px; }
+.bg3ib-init.empty { color: #888; border-color: #555; }
+
+.bg3ib-card.just-rolled .bg3ib-init {
+  animation: bg3ib-pop 0.6s ease-out;
+}
+@keyframes bg3ib-pop {
+  0%   { transform: scale(0.3); box-shadow: 0 0 0 0 rgba(201, 163, 91, 0.9); }
+  60%  { transform: scale(1.4); box-shadow: 0 0 12px 4px rgba(201, 163, 91, 0.6); }
+  100% { transform: scale(1);   box-shadow: none; }
+}
+
+/* ----- Кнопки управления ----- */
+.bg3ib-controls {
+  display: flex;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--bg3ib-dark);
+  border: 1px solid rgba(201, 163, 91, 0.4);
+  border-radius: 14px;
+}
+.bg3ib-controls button {
+  width: auto;
+  min-width: 28px;
+  height: 24px;
+  margin: 0;
+  padding: 0 8px;
+  line-height: 22px;
+  font-size: 12px;
+  color: var(--bg3ib-gold-light);
+  background: rgba(60, 45, 25, 0.6);
+  border: 1px solid rgba(201, 163, 91, 0.5);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.bg3ib-controls button:hover {
+  background: rgba(120, 85, 35, 0.8);
+  box-shadow: 0 0 6px rgba(201, 163, 91, 0.6);
+}
+.bg3ib-controls .bg3ib-start {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Кнопка «Собрать бой» (мастер, пока боя нет) ===== */
+#initiative-bar-tool.bg3ib-idle { transform: translate(-50%, 0); }
+.bg3ib-gather {
+  display: inline-flex; align-items: center; gap: 6px; width: auto;
+  padding: 4px 14px; font-size: 13px; letter-spacing: .5px; cursor: pointer;
+  color: var(--bg3ib-gold-light); background: linear-gradient(180deg, #2a2118, #120e0a);
+  border: 1px solid #8a6d33; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.6); opacity: .75;
+  transition: opacity .2s, box-shadow .2s;
+}
+.bg3ib-gather:hover { opacity: 1; box-shadow: 0 0 10px rgba(217,180,90,.6); }
+
+/* ===== Окно «Собрать бой» ===== */
+.ib-setup .window-content { padding: 0; }
+.ib-setup-body { display: flex; flex-direction: column; height: 100%; gap: 6px; padding: 8px 10px; }
+.ib-setup-hint { margin: 0; font-size: 12px; opacity: .85; }
+.ib-setup-quick { display: flex; flex-wrap: wrap; gap: 4px; }
+.ib-setup-quick button { flex: 1 1 auto; width: auto; font-size: 12px; padding: 2px 8px; }
+.ib-setup-list { flex: 1; min-height: 0; overflow-y: auto; border: 1px solid rgba(201,163,91,.3); border-radius: 6px; background: rgba(0,0,0,.25); padding: 4px; }
+.ib-setup-group + .ib-setup-group { margin-top: 6px; }
+.ib-setup-group header { display: flex; align-items: center; gap: 6px; padding: 3px 6px; font-weight: bold; color: #e7c77a; border-bottom: 1px solid rgba(201,163,91,.25); }
+.ib-setup-group header small { opacity: .6; font-weight: normal; }
+.ib-setup-group header button { margin-left: auto; width: auto; font-size: 11px; line-height: 18px; padding: 0 8px; }
+.ib-setup-group[data-group="hostile"] header { color: #e57b72; }
+.ib-setup-group[data-group="friendly"] header, .ib-setup-group[data-group="players"] header { color: #7fd09a; }
+.ib-setup-group ul { list-style: none; margin: 0; padding: 2px 0; }
+.ib-setup-group li label { display: flex; align-items: center; gap: 8px; padding: 3px 6px; border-radius: 4px; cursor: pointer; }
+.ib-setup-group li label:hover { background: rgba(201,163,91,.12); }
+.ib-setup-group li img { width: 34px; height: 34px; object-fit: cover; border: 1px solid #6e5428; border-radius: 50%; flex: none; }
+.ib-setup-group li .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ib-setup-group li small { opacity: .75; white-space: nowrap; }
+.ib-setup-group li em { font-size: 11px; color: #c9a35b; }
+.ib-setup-group li.in-combat { opacity: .55; }
+.ib-setup-group li.is-hidden img { filter: grayscale(.7); opacity: .7; }
+.ib-setup-empty { text-align: center; opacity: .7; padding: 20px; }
+.ib-setup-opts { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
+.ib-setup-opts label { display: flex; align-items: center; gap: 6px; }
+.ib-setup-footer { display: flex; gap: 6px; }
+.ib-setup-footer button { flex: 1; }
+.ib-setup-go { flex: 2 !important; font-weight: bold; font-size: 15px; color: #f6e0a0; background: linear-gradient(180deg, #7a2a20, #3e120c); border-color: #c9a35b; }
+.ib-setup-go:disabled { opacity: .5; }
+.ib-setup-count { display: inline-block; min-width: 20px; padding: 0 6px; margin-left: 4px; border-radius: 10px; background: rgba(0,0,0,.4); font-size: 12px; }

@@ -1,0 +1,51 @@
+{
+  "id": "rpg-tools-by-hibear",
+  "title": "RPG-Tools by Hibear",
+  "description": "Один модуль для D&D 5e в Foundry VTT v14 со всеми инструментами мастера и игроков: UI-интерфейс, голосовые портреты, авто-бой, эпические запросы бросков, награда партии, реакции, 3D-кубики, панель мастера, полоса инициативы, календарь и погода, свет и факелы, взлом замков, сундуки и торговцы, манекен экипировки, шёпот мастера и блокнот. Каждая функция включается в «Центре управления», и они работают вместе без конфликтов. Автор: Hibear.",
+  "version": "4.0.0",
+  "authors": [
+    {
+      "name": "Hibear"
+    }
+  ],
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.370"
+  },
+  "esmodules": [
+    "core/main.js"
+  ],
+  "styles": [
+    "core/core.css",
+    "features/hud/hud.css",
+    "features/voice-portraits/styles/voice-portraits.css",
+    "features/auto-combat/auto-combat.css",
+    "features/roll-requests/roll-requests.css",
+    "features/party-loot/party-loot.css",
+    "features/reactions/reactions.css",
+    "features/dice/dice.css",
+    "features/gm-bar/gm-bar.css",
+    "features/initiative/initiative.css",
+    "features/calendar/calendar.css",
+    "features/light/light.css",
+    "features/lockpick/lockpick.css",
+    "features/piles/piles.css",
+    "features/mannequin/mannequin.css",
+    "features/whisper/whisper.css",
+    "features/notebook/notebook.css",
+    "core/theme.css"
+  ],
+  "socket": true,
+  "languages": [
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "lang/ru.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}

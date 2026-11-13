@@ -1,0 +1,369 @@
+/* ============ BG3-style Roll Requests ============ */
+
+.bg3rr-overlay *, .bg3rr-overlay *::before, .bg3rr-overlay *::after { box-sizing: border-box; }
+
+:root {
+  --bg3rr-gold: #d8b46a;
+  --bg3rr-gold-dim: #8a6d3b;
+  --bg3rr-gold-light: #f3dca0;
+  --bg3rr-ink: #120d09;
+  --bg3rr-good: #e9cf7a;
+  --bg3rr-bad: #d9493c;
+  --bg3rr-font: "Modesto Condensed", "Amiri", "Palatino Linotype", Georgia, serif;
+}
+
+/* Dice So Nice поверх затемнения */
+body.bg3rr-active #dice-box-canvas { z-index: 10050 !important; }
+
+.bg3rr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--bg3rr-font);
+  color: var(--bg3rr-gold-light);
+  animation: bg3rr-fade-in 0.45s ease-out both;
+}
+.bg3rr-overlay.bg3rr-closing { animation: bg3rr-fade-out 0.45s ease-in both; }
+
+.bg3rr-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(10, 6, 3, 0.55) 0%, rgba(0, 0, 0, 0.88) 75%);
+  backdrop-filter: blur(3px) saturate(0.6);
+}
+
+.bg3rr-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  line-height: 1;
+  border-radius: 50%;
+  border: 1px solid var(--bg3rr-gold-dim);
+  background: rgba(18, 13, 9, 0.85);
+  color: var(--bg3rr-gold);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 2;
+}
+.bg3rr-close:hover { color: #fff; border-color: var(--bg3rr-gold); box-shadow: 0 0 12px rgba(216, 180, 106, 0.5); }
+
+.bg3rr-stage {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: safe center;
+  align-items: flex-start;
+  max-width: 96vw;
+  max-height: 96vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 24px;
+}
+
+/* ---------- Карточка ---------- */
+
+.bg3rr-card {
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: bg3rr-rise 0.55s cubic-bezier(.2, .9, .3, 1.2) both;
+}
+.bg3rr-multi .bg3rr-card { width: 300px; }
+
+.bg3rr-frame {
+  position: relative;
+  width: 100%;
+  padding: 22px 26px 20px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(216, 180, 106, 0.12), transparent 60%),
+    linear-gradient(180deg, #1d150e 0%, var(--bg3rr-ink) 100%);
+  border: 1px solid var(--bg3rr-gold-dim);
+  box-shadow:
+    inset 0 0 0 4px var(--bg3rr-ink),
+    inset 0 0 0 5px rgba(216, 180, 106, 0.35),
+    0 0 40px rgba(0, 0, 0, 0.9),
+    0 0 90px rgba(216, 180, 106, 0.08);
+}
+.bg3rr-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--bg3rr-gold);
+}
+.bg3rr-tl { top: -3px; left: -3px; border-right: none; border-bottom: none; }
+.bg3rr-tr { top: -3px; right: -3px; border-left: none; border-bottom: none; }
+.bg3rr-bl { bottom: -3px; left: -3px; border-right: none; border-top: none; }
+.bg3rr-br { bottom: -3px; right: -3px; border-left: none; border-top: none; }
+
+.bg3rr-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(216, 180, 106, 0.25);
+}
+.bg3rr-portrait {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--bg3rr-player, var(--bg3rr-gold));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  flex: none;
+}
+.bg3rr-name { font-size: 24px; line-height: 1.05; color: #fff3d6; }
+.bg3rr-name small { font-size: 15px; color: var(--bg3rr-gold-dim); }
+.bg3rr-requested {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bg3rr-gold);
+  font-family: "Signika", sans-serif;
+}
+
+.bg3rr-label {
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--bg3rr-gold-light);
+  text-shadow: 0 0 12px rgba(216, 180, 106, 0.35);
+}
+.bg3rr-multi .bg3rr-label { font-size: 24px; }
+.bg3rr-mode {
+  display: inline-block;
+  vertical-align: middle;
+  font-family: "Signika", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+.bg3rr-adv { background: rgba(80, 150, 80, 0.3); color: #b9e6a8; border: 1px solid #5c9a4c; }
+.bg3rr-dis { background: rgba(160, 60, 50, 0.3); color: #f0b0a8; border: 1px solid #a34a3e; }
+.bg3rr-reason {
+  margin-top: 4px;
+  font-family: "Signika", sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #c9b9a0;
+}
+
+/* ---------- Кость ---------- */
+
+.bg3rr-die {
+  position: relative;
+  width: 170px;
+  height: 187px;
+  margin: 18px auto 6px;
+}
+.bg3rr-multi .bg3rr-die { width: 140px; height: 154px; }
+.bg3rr-d20 { width: 100%; height: 100%; filter: drop-shadow(0 0 14px rgba(216, 180, 106, 0.35)); }
+.bg3rr-d20-outer { fill: url(#bg3rr-face); stroke: var(--bg3rr-gold); stroke-width: 3; stroke-linejoin: round; }
+.bg3rr-d20-inner { fill: rgba(216, 180, 106, 0.07); stroke: var(--bg3rr-gold); stroke-width: 2; stroke-linejoin: round; }
+.bg3rr-d20-lines { fill: none; stroke: var(--bg3rr-gold-dim); stroke-width: 1.6; }
+
+.bg3rr-value {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  transform: translateY(-50%);
+  font-size: 52px;
+  line-height: 1;
+  color: #fff4d8;
+  text-shadow: 0 0 10px rgba(255, 220, 150, 0.6), 0 2px 0 #000;
+}
+.bg3rr-multi .bg3rr-value { font-size: 42px; }
+
+.bg3rr-rolling .bg3rr-d20 { animation: bg3rr-shake 0.35s ease-in-out infinite; }
+.bg3rr-rolling .bg3rr-value { color: var(--bg3rr-gold); opacity: 0.85; }
+.bg3rr-revealed .bg3rr-value { animation: bg3rr-pop 0.5s cubic-bezier(.2, 1.6, .4, 1) both; }
+.bg3rr-revealed.bg3rr-nat20 .bg3rr-d20 { filter: drop-shadow(0 0 22px rgba(255, 215, 120, 0.95)); }
+.bg3rr-revealed.bg3rr-nat1 .bg3rr-d20 { filter: drop-shadow(0 0 22px rgba(217, 73, 60, 0.9)); }
+
+.bg3rr-breakdown {
+  min-height: 18px;
+  font-family: "Signika", sans-serif;
+  font-size: 13px;
+  color: #a8957a;
+}
+
+/* ---------- Кнопки ---------- */
+
+.bg3rr-actions { min-height: 48px; margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.bg3rr-roll {
+  font-family: var(--bg3rr-font);
+  font-size: 24px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a120a;
+  padding: 8px 34px;
+  border: 1px solid #fbe6b0;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f3d999 0%, #c99a4a 55%, #9c7130 100%);
+  box-shadow: 0 0 0 3px var(--bg3rr-ink), 0 0 0 4px var(--bg3rr-gold-dim), 0 0 18px rgba(216, 180, 106, 0.55);
+  cursor: pointer;
+  width: auto;
+  line-height: 1.2;
+  animation: bg3rr-glow 1.6s ease-in-out infinite;
+}
+.bg3rr-roll:hover { filter: brightness(1.12); }
+.bg3rr-roll:disabled { filter: grayscale(0.7); cursor: default; animation: none; }
+.bg3rr-roll.bg3rr-roll-gm {
+  font-size: 15px;
+  padding: 4px 16px;
+  color: var(--bg3rr-gold-light);
+  background: rgba(40, 28, 18, 0.9);
+  border-color: var(--bg3rr-gold-dim);
+  box-shadow: none;
+  animation: none;
+}
+.bg3rr-waiting {
+  font-size: 20px;
+  color: #b8a27c;
+  animation: bg3rr-breathe 1.8s ease-in-out infinite;
+}
+
+/* ---------- Сложность (внизу) ---------- */
+
+.bg3rr-dc {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(216, 180, 106, 0.25);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a8957a;
+}
+.bg3rr-dc b { font-size: 24px; color: var(--bg3rr-gold-light); font-weight: normal; margin-left: 4px; }
+
+/* ---------- Успех / провал (вверху) ---------- */
+
+.bg3rr-outcome {
+  width: 100%;
+  min-height: 64px;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.bg3rr-outcome span {
+  font-size: 50px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+.bg3rr-multi .bg3rr-outcome span { font-size: 32px; letter-spacing: 0.08em; }
+.bg3rr-outcome.bg3rr-good span {
+  color: var(--bg3rr-good);
+  text-shadow: 0 0 18px rgba(255, 210, 110, 0.85), 0 0 40px rgba(255, 190, 80, 0.45), 0 2px 0 #000;
+}
+.bg3rr-outcome.bg3rr-bad span {
+  color: var(--bg3rr-bad);
+  text-shadow: 0 0 18px rgba(217, 73, 60, 0.85), 0 0 40px rgba(160, 30, 20, 0.5), 0 2px 0 #000;
+}
+.bg3rr-show-outcome .bg3rr-outcome span { animation: bg3rr-banner 0.7s cubic-bezier(.2, 1.4, .4, 1) both; }
+.bg3rr-show-outcome .bg3rr-outcome.bg3rr-bad span { animation: bg3rr-banner-bad 0.7s ease-out both; }
+
+/* ---------- Анимации ---------- */
+
+@keyframes bg3rr-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bg3rr-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes bg3rr-rise {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bg3rr-shake {
+  0% { transform: rotate(-8deg) scale(1.02); }
+  50% { transform: rotate(8deg) scale(0.97); }
+  100% { transform: rotate(-8deg) scale(1.02); }
+}
+@keyframes bg3rr-pop {
+  0% { transform: translateY(-50%) scale(2.2); opacity: 0; }
+  100% { transform: translateY(-50%) scale(1); opacity: 1; }
+}
+@keyframes bg3rr-banner {
+  0% { opacity: 0; transform: scale(1.6); letter-spacing: 0.5em; }
+  100% { opacity: 1; transform: scale(1); letter-spacing: 0.14em; }
+}
+@keyframes bg3rr-banner-bad {
+  0% { opacity: 0; transform: translateY(-12px); }
+  60% { opacity: 1; transform: translateY(3px); }
+  75% { transform: translateX(-4px); }
+  90% { transform: translateX(4px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes bg3rr-glow {
+  0%, 100% { box-shadow: 0 0 0 3px var(--bg3rr-ink), 0 0 0 4px var(--bg3rr-gold-dim), 0 0 12px rgba(216, 180, 106, 0.4); }
+  50% { box-shadow: 0 0 0 3px var(--bg3rr-ink), 0 0 0 4px var(--bg3rr-gold), 0 0 26px rgba(216, 180, 106, 0.8); }
+}
+@keyframes bg3rr-breathe { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+/* ============ Панель мастера ============ */
+
+/* ---------- окно мастера: слева цели и параметры, справа плитки навыков ---------- */
+.bg3rr-panel .bg3rr-panel-body { display: flex; gap: 14px; align-items: stretch; }
+.bg3rr-panel .bg3rr-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.bg3rr-panel .bg3rr-col-left { flex: 0 0 340px; max-width: 340px; }
+.bg3rr-panel .bg3rr-col-right { flex: 1; border-left: 1px solid rgba(216, 180, 106, 0.3); padding-left: 14px; }
+.bg3rr-panel .bg3rr-col-right h4 { margin: 0 0 8px; font-size: 14px; border-bottom: 1px solid rgba(216, 180, 106, 0.3); padding-bottom: 4px; }
+/* fieldset по умолчанию не сжимается уже своего содержимого (min-inline-size: min-content) — из-за этого рамка вылезала */
+.bg3rr-panel fieldset { margin: 0; padding: 6px 8px 8px; min-width: 0; min-inline-size: 0; max-width: 100%; box-sizing: border-box; }
+
+.bg3rr-panel .bg3rr-tokens { display: flex; flex-direction: column; gap: 3px; max-height: 260px; overflow-y: auto; margin-bottom: 6px; }
+.bg3rr-panel .bg3rr-token { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 2px 4px; border-radius: 4px; min-width: 0; }
+.bg3rr-panel .bg3rr-token:hover { background: rgba(216, 180, 106, 0.1); }
+.bg3rr-panel .bg3rr-token:has(input:checked) { background: rgba(216, 180, 106, 0.18); }
+.bg3rr-panel .bg3rr-token input { margin: 0; flex: none; }
+.bg3rr-panel .bg3rr-token img { width: 28px; height: 28px; border: none; border-radius: 50%; object-fit: cover; flex: none; background: rgba(0,0,0,.3); }
+.bg3rr-panel .bg3rr-tname { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
+.bg3rr-panel .bg3rr-token small { margin-left: auto; opacity: 0.7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; font-size: 11px; }
+.bg3rr-panel .bg3rr-offline { opacity: 0.6; }
+.bg3rr-panel .bg3rr-npcs summary { cursor: pointer; opacity: 0.8; margin: 4px 0 2px; font-size: 12px; }
+.bg3rr-panel .bg3rr-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.bg3rr-panel .bg3rr-small {
+  font-size: 12px; padding: 3px 6px; width: auto; flex: 1 1 calc(50% - 4px); min-width: 0;
+  white-space: normal; line-height: 1.25; height: auto; min-height: 26px;
+}
+.bg3rr-panel .bg3rr-send { margin-top: 4px; font-size: 15px; }
+
+.bg3rr-panel .bg3rr-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.bg3rr-panel .bg3rr-tiles-big { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bg3rr-panel .bg3rr-tile {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; width: 100%; min-height: 34px;
+  padding: 4px 10px; margin: 0; text-align: left; line-height: 1.2; cursor: pointer;
+  border: 2px solid rgba(216, 180, 106, 0.25); border-radius: 6px; background: rgba(0, 0, 0, 0.25);
+  transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+}
+.bg3rr-panel .bg3rr-tile:hover { border-color: rgba(216, 180, 106, 0.7); }
+.bg3rr-panel .bg3rr-tile small { opacity: 0.6; font-size: 10px; flex: none; }
+.bg3rr-panel .bg3rr-tile-label { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.bg3rr-panel .bg3rr-tile.selected {
+  border-color: #f0c43a; background: rgba(240, 196, 58, 0.16);
+  box-shadow: 0 0 0 1px #f0c43a, 0 0 10px rgba(240, 196, 58, 0.45);
+}
+.bg3rr-panel .bg3rr-tile.selected .bg3rr-tile-label { font-weight: bold; color: #ffe9a8; }
+.bg3rr-panel .bg3rr-tiles-big .bg3rr-tile { min-height: 46px; font-size: 15px; }
+.bg3rr-panel .bg3rr-f-formula input { width: 100%; margin-bottom: 8px; }
+.bg3rr-panel .bg3rr-dice { display: flex; flex-wrap: wrap; gap: 4px; }
+.bg3rr-panel .bg3rr-dice button { flex: 1 0 20%; font-size: 12px; padding: 2px 4px; min-height: 0; line-height: 1.6; }
+
+.bg3rr-panel-body:not([data-type="check"]):not([data-type="save"]) .bg3rr-f-ability { display: none !important; }
+.bg3rr-panel-body:not([data-type="skill"]) .bg3rr-f-skill { display: none !important; }
+.bg3rr-panel-body:not([data-type="custom"]) .bg3rr-f-formula { display: none !important; }
+
+/* RPG Suite: 3D-кубики (функция «3D-кубики») поверх затемнения запроса броска */
+body.bg3rr-active #simple-3d-dice-overlay { position: fixed; z-index: 10050 !important; }
